@@ -5,6 +5,8 @@ import axios from '../api/axios';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 const REGISTER_URL = '/register';
 
 const Register = () => {
@@ -12,6 +14,10 @@ const Register = () => {
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
 
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
@@ -32,6 +38,11 @@ const Register = () => {
     }, [user]);
 
     useEffect(() => {
+        const result = EMAIL_REGEX.test(email);
+        setValidEmail(result);
+    }, [email]);
+
+    useEffect(() => {
         const result = PWD_REGEX.test(pwd);
         // console.log(result);
         // console.log(pwd);
@@ -49,7 +60,8 @@ const Register = () => {
         // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
-        if (!v1 || !v2){
+        const v3 = EMAIL_REGEX.test(email);
+        if (!v1 || !v2 || !v3){
             setErrMsg("Invalid Entry");
             return;
         }
@@ -58,6 +70,7 @@ const Register = () => {
         try{
             const payload = {
                 user,
+                email,
                 pwd
             }
             const response = await axios.post(REGISTER_URL, 
@@ -129,6 +142,22 @@ const Register = () => {
                                     4 to 24 characters. <br />
                                     Must begin with a letter. <br />
                                     Letters, numbers, underscores, hyphens allowed
+                                </p>
+
+                                <label className='form-label' htmlFor="email">Email</label>
+                                <input 
+                                    type="email"
+                                    className={`form-control ${!email ? "" : validEmail ? "is-valid" : "is-invalid"}`}
+                                    id="email"
+                                    autoComplete='off'
+                                    onChange={e => setEmail(e.target.value)}
+                                    value={email}
+                                    required
+                                    onFocus={() => setEmailFocus(true)}
+                                    onBlur={() => setEmailFocus(false)} 
+                                />
+                                <p id="emailnote" className={emailFocus && email && !validEmail ? "invalid-feedback" : "offscreen"}>
+                                    Not a valid Email
                                 </p>
 
                                 <label className='form-label' htmlFor="password">Password</label>

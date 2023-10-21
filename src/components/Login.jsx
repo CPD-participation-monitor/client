@@ -4,28 +4,29 @@ import { HashLink } from 'react-router-hash-link';
 import useAuth from '../hooks/useAuth';
 
 import axios from '../api/axios';
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/login';
 
 const Login = () => {
     const { setAuth } = useAuth();
 
-    const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd]);
+    }, [email, pwd]);
 
     const handleSubmit = async(e) => {
         e.preventDefault();
 
         try{
             const payload = {
-                user,
-                pwd
+                email,
+                password: pwd
             }
+            console.log(payload);
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify(payload), 
                 {
@@ -36,14 +37,19 @@ const Login = () => {
                 }
             );
             console.log(JSON.stringify(response?.data));
+            const success = response?.data?.success;
+            const reason = response?.data?.reason;
+            if (!success) {
+                console.log(reason);
+                throw new Error(reason);
+            }
             // console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
-            setUser('');
-            setPwd('');
-            setSuccess(true);
-            console.log("submitted");
+            // const accessToken = response?.data?.accessToken;
+            // const roles = response?.data?.roles;
+            // setAuth({ email, pwd, roles, accessToken });
+            // setEmail('');
+            // setPwd('');
+            // setSuccess(true);
         }catch (err){
             if (!err?.response){
                 setErrMsg('No Server Response');
@@ -85,14 +91,14 @@ const Login = () => {
                             </div>
                             <div className="card-body">
                                 <form className='form needs-validation' onSubmit={handleSubmit} noValidate>
-                                    <label className='form-label' htmlFor="username">Username</label>
+                                    <label className='form-label' htmlFor="email">Email</label>
                                     <input 
-                                        type="text"
+                                        type="email"
                                         className='form-control'
-                                        id="username"
+                                        id="email"
                                         autoComplete='off'
-                                        onChange={e => setUser(e.target.value)}
-                                        value={user}
+                                        onChange={e => setEmail(e.target.value)}
+                                        value={email}
                                         required
                                     />
 
@@ -106,7 +112,7 @@ const Login = () => {
                                         required
                                     />
 
-                                    <button className='col-12 btn btn-outline-dark mt-5' disabled={!user || !pwd ? true : false}>Sign In</button>
+                                    <button className='col-12 btn btn-outline-dark mt-5' disabled={!email || !pwd ? true : false}>Sign In</button>
                                 </form>
                                 <p className='mt-4'>
                                     Need an Account? <br />

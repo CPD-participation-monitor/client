@@ -1,11 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap');
 
 :root{
     --neon-btn-one: #ffcc33;
-    --neon-btn-two: #2196f3;
-    --background-black: #000814;
-    --background-blue: #021222;
-    --modal-background: #424651;
 }
 
 *{
@@ -14,21 +11,39 @@
 }
 
 body{
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Quicksand', sans-serif !important;
     scrollbar-width: none;
-    /* -ms-overflow-style: none;
-    overflow-x: hidden; */
+    -ms-overflow-style: none;
+    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar{
     display: none;
 }
 
+.register.container-fluid,
+.login.container-fluid{
+    height: 100vh;
+}
+.img-container{
+    height: 100%;
+    justify-items: center;
+    display: flex;
+}
+
 .register .card,
 .login .card,
 .success.card{
-    transform: translateY(30%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80vh;
+    opacity: 0.97;
 }
+
+/* .register .card-body{
+    background: transparent;
+} */
 
 .card-title{
     letter-spacing: 0.8rem;
@@ -41,5 +56,12 @@ body::-webkit-scrollbar{
 
 .errmsg{
     color: crimson;
+}
+
+.form-section{
+    align-items: center;
+}
+.title-section{
+    align-items: center;
 }
 

@@ -32,6 +32,7 @@ body::-webkit-scrollbar{
     display: flex;
 }
 
+
 .register .card,
 .login .card,
 .success .card{
@@ -56,6 +57,9 @@ body::-webkit-scrollbar{
 .card-title{
     letter-spacing: 0.8rem;
 }
+.hero-title{
+    letter-spacing: 0.6rem;
+}
 
 .offscreen {
     position: absolute;
@@ -73,8 +77,40 @@ body::-webkit-scrollbar{
     align-items: center;
 }
 
+.nav-link{
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}
+
+.hero-section{
+    height: 100vh;
+}
+.hero-title{
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.whatiscpd-section{
+    height: 100vh;
+}
+/* .whatiscpd-section::before{
+    content: "";
+    background-image: url("/client/src/assets/images/light_bgs/1.jpeg");
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    opacity: 0.75;
+} */
+
 @media only screen and (max-width: 768px){
     .card-title{
+        letter-spacing: 0.3rem;
+    }
+    .hero-title{
         letter-spacing: 0.3rem;
     }
 

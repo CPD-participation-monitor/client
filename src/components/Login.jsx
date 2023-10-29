@@ -112,7 +112,7 @@ const Login = () => {
                         <p className='mt-4'>
                             Need an Account? <br />
                             <span>
-                                <HashLink className='text-decoration-none' to="/">Sign Up</HashLink>
+                                <HashLink className='text-decoration-none' to="/register">Sign Up</HashLink>
                             </span>
                         </p>
                     </div>

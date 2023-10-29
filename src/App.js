@@ -1,5 +1,5 @@
 import { NavBar, Register, Login, LandingPage, AboutUs, AdminDashboard, OrgDashboard, UserDashboard, CPDDashboard } from './components';
-import RequireAuth from './components/RequireAuth';
+import RequireAuth from './javascript/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
 
 function App() {

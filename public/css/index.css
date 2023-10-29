@@ -22,7 +22,8 @@ body::-webkit-scrollbar{
 }
 
 .register.container-fluid,
-.login.container-fluid{
+.login.container-fluid,
+.success.container-fluid{
     height: 100vh;
 }
 .img-container{
@@ -33,17 +34,24 @@ body::-webkit-scrollbar{
 
 .register .card,
 .login .card,
-.success.card{
+.success .card{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 80vh;
+    height: 75vh;
     opacity: 0.97;
 }
 
-/* .register .card-body{
-    background: transparent;
-} */
+.success .card{
+    height: 50vh;
+    opacity: 0.9;
+}
+
+.check-mark{
+    height: 100px;
+    width: 100px;
+    display: block;
+}
 
 .card-title{
     letter-spacing: 0.8rem;
@@ -63,5 +71,19 @@ body::-webkit-scrollbar{
 }
 .title-section{
     align-items: center;
+}
+
+@media only screen and (max-width: 768px){
+    .card-title{
+        letter-spacing: 0.3rem;
+    }
+
+    .title-section{
+        display: none;
+    }
+
+    .login .card{
+        height: 60vh;
+    }
 }
 

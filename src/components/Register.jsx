@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import axios from '../api/axios';
-
+import SuccessNotification from './SuccessNotification.jsx';
 import { images } from '../javascript/imageImports.js';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
@@ -107,18 +107,7 @@ const Register = () => {
     return (
         <>
             {success ? (
-                <section>
-                    <div className="container container-fluid col-4 text-center">
-                        <div className="success card bg-light mx-auto px-md-5 px-1 py-5">
-                            <div className="card-title display-6 text-uppercase text-center">
-                                Success!
-                            </div>
-                            <span className='card-body'>
-                                <HashLink to="/login">Sign In</HashLink>
-                            </span>
-                        </div>
-                    </div>
-                </section>
+                <SuccessNotification />
             ) : (
                 <div className='register container-fluid col-12 px-0' style={{backgroundImage: `url(${images.bg_jungle_landscape})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
                     <div className="card bg-light mx-auto border-0 rounded-5 shadow col-8 d-flex flex-row position-absolute">
@@ -127,12 +116,12 @@ const Register = () => {
                                 <img className='img-fluid p-5' src={images.signup} alt="register" />
                             </div>
                         </div>
-                        <div className="form-section col-6 text-center">
-                            <p className={`mx-auto ${errMsg ? "errmsg" : "offscreen"}`}>{errMsg}</p>
+                        <div className="form-section col-md-6 col-10 mx-auto text-center">
                             <div className="card-title">
-                                <h1 className='text-uppercase p-5'>Register</h1>
+                                <h1 className='text-uppercase p-5 px-2'>Register</h1>
                             </div>
-                            <div className="card-body px-5">
+                            <p className={`mx-auto ${errMsg ? "errmsg" : "offscreen"}`}>{errMsg}</p>
+                            <div className="card-body px-md-5 px-1">
                                 <form className='form needs-validation' onSubmit={handleSubmit} noValidate>
                                     <div className="form-floating text-secondary mb-4">
                                         <input 
@@ -180,6 +169,7 @@ const Register = () => {
                                             className={`form-control border-0 rounded-5 ${!pwd ? "" : validPwd ? "is-valid" : "is-invalid"}`}
                                             id="password"
                                             onChange={e => setPwd(e.target.value)}
+                                            value={pwd}
                                             required
                                             onFocus={() => setPwdFocus(true)}
                                             onBlur={() => setPwdFocus(false)}
@@ -199,6 +189,7 @@ const Register = () => {
                                             className={`form-control border-0 rounded-5 ${!matchPwd ? "" : validMatchPwd ? "is-valid" : "is-invalid"}`}
                                             id="matchPwd"
                                             onChange={e => setMatchPwd(e.target.value)}
+                                            value={matchPwd}
                                             required
                                             onFocus={() => setMatchPwdFocus(true)}
                                             onBlur={() => setMatchPwdFocus(false)}

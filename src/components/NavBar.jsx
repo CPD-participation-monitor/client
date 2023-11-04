@@ -1,11 +1,14 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { useLocation } from 'react-router-dom';
+import useAuth from "../hooks/useAuth";
 
 import { images } from '../javascript/imageImports';
 
 const NavBar = () => {
     
+    const [navLink, setNavLink] = useState('');
+    const { currentUser } = useAuth();
     const location = useLocation();
 
     const scroll = () => {
@@ -23,6 +26,11 @@ const NavBar = () => {
         scroll();
     });
 
+    useEffect(() => {
+        // console.log(currentUser?.role);
+        setNavLink(currentUser?.role === 6445 ? "/orgadmindash" : "/userdash");
+    }, [currentUser]);
+
     return (
         <nav className={`navbar fixed-top navbar-expand-lg ${location.pathname.includes('/register') || location.pathname.includes('/login') ? "navbar-dark bg-dark" : "navbar-light bg-light"} m-0 p-0 py-3 bg-transparent`}>
             <div className="container-fluid">
@@ -37,7 +45,7 @@ const NavBar = () => {
                         <HashLink className="nav-link px-5 active" aria-current="page" to="/">What is CPD?</HashLink>
                         <HashLink className="nav-link px-5" to="/findcpd">Find CPD</HashLink>
                         <HashLink className="nav-link px-5" to="/about">About Us</HashLink>
-                        <HashLink className="nav-link px-5" to="/userdash">My CPD</HashLink>
+                        <HashLink className="nav-link px-5" to={navLink}>My CPD</HashLink>
                         {/* <HashLink className="nav-link text-dark bg-warning rounded-1" to="/register-org">Become a CPD Provider</HashLink> */}
                     </div>
                 </div>

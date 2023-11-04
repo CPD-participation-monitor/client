@@ -5,10 +5,10 @@ import { Routes, Route } from 'react-router-dom';
 function App() {
 
 	const ROLES = {
-		eng: 'eng',
-		orgAdmin: 'orgAdmin',
-		orgSuperAdmin: 'orgSuperAdmin',
-		admin: 'admin'
+		eng: 2044,
+		orgAdmin: 6445,
+		orgSuperAdmin: 3112,
+		admin: 1344
 	};
 
 	return (

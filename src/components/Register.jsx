@@ -230,7 +230,7 @@ const Register = () => {
                                                 type="radio" 
                                                 name='roleOptions' 
                                                 id='org' 
-                                                value='org'
+                                                value='orgAdmin'
                                                 className="form-check-input"
                                                 onChange={e => setRole(e.target.value)} 
                                             />

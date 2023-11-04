@@ -42,10 +42,10 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            // const reason = 'test';
             const success = response?.data?.success;
             const reason = response?.data?.reason;
             const role = response?.data?.role;
+            // console.log(role);
 
             if (!success) {
                 console.log(reason);
@@ -54,11 +54,6 @@ const Login = () => {
             console.log(JSON.stringify(response?.data));
             // const accessToken = response?.data?.accessToken;
             dispatch({ type: "LOGIN", payload: { success, role } });
-            setEmail('');
-            setPwd('');
-
-            // window.sessionStorage.setItem('user', success);
-            // window.sessionStorage.setItem('role', role);
             // navigate the user to the page they were trying to access before being redirected to login
             navigate(from, { replace: true });
 

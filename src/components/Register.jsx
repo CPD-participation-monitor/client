@@ -91,29 +91,36 @@ const Register = () => {
                 nic,
                 role
             }
-            // const response = await axios.post(REGISTER_URL, 
-            //     JSON.stringify(payload),
-            //     {
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         withCredentials: true
-            //     }
-            // );
-            // console.log(response.data);
-
+            const response = await axios.post(REGISTER_URL, 
+                JSON.stringify(payload),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
+            );
             // console.log(response.accessToken);
-            // console.log(JSON.stringify(response));
-            // setSuccess(true);
-            // clear the input fields if you want
+            console.log(JSON.stringify(response?.data));
+            const successRes = response?.data?.success;
+            const reason = response?.data?.reason;
+            setSuccess(successRes);
+            if (!successRes){
+                setErrMsg(reason);
+                setName('');
+                setNic('');
+                setEmail(''); 
+                setPwd('');
+                setMatchPwd('');
+            }
         }catch (err){
             // optional chaining to safely access nested properties of an object
             if (!err?.response) {
                 setErrMsg('No Server Response');
             }
             else if (err.response?.status === 409){
-                setErrMsg('Name Taken');
-                setName('');
+                setErrMsg('Email already in use');
+                setValidEmail(false);
             }
             else{
                 setErrMsg('Registration Failed');

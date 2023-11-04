@@ -6,7 +6,7 @@ import SuccessNotification from './SuccessNotification.jsx';
 import { images } from '../javascript/imageImports.js';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%*]).{8,24}$/;
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 // const ORG_REGEX = /^([a-zA-Z0-9\s\{\}\[\]\(\)\@\#\&\!]+)$/;
 const NIC_REGEX = /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/;
@@ -23,7 +23,7 @@ const Register = () => {
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
 
-    const [userType, setUserType] = useState('eng');
+    const [role, setRole] = useState('eng');
 
     const [nic, setNic] = useState('');
     const [validNic, setValidNic] = useState(false);
@@ -89,7 +89,7 @@ const Register = () => {
                 email,
                 password: pwd,
                 nic,
-                userType
+                role
             }
             // const response = await axios.post(REGISTER_URL, 
             //     JSON.stringify(payload),
@@ -209,7 +209,7 @@ const Register = () => {
                                         <div className="form-check form-check-inline">
                                             <input 
                                                 type="radio" 
-                                                name='userTypeOptions' 
+                                                name='roleOptions' 
                                                 id='eng' 
                                                 value='eng'
                                                 className="form-check-input"
@@ -221,7 +221,7 @@ const Register = () => {
                                         <div className="form-check form-check-inline">
                                             <input 
                                                 type="radio" 
-                                                name='userTypeOptions' 
+                                                name='roleOptions' 
                                                 id='org' 
                                                 value='org'
                                                 className="form-check-input"
@@ -249,7 +249,7 @@ const Register = () => {
                                                 <p id="pwdnote" className={pwdFocus && !validPwd ? "invalid-feedback text-start" : "offscreen"}>
                                                     8 to 24 characters. <br />
                                                     Must include uppercase and lowercase letters, a number and a special character. <br />
-                                                    Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                                                    Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span> <span aria-label="asterix">*</span>
                                                 </p>
                                             </div>
                                         </div>

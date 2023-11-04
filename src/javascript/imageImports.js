@@ -6,6 +6,7 @@ import bg_jungle_landscape_2 from '../assets/images/jungle_landscape_2.jpeg';
 import bg_jungle_landscape_3 from '../assets/images/jungle_landscape_3.jpeg';
 import success from '../assets/images/success_illustration_removebg.png';
 import check from '../assets/images/green_check.svg';
+import unauthorized from '../assets/images/unauthorized.png';
 
 import logo_1 from '../assets/images/logos/cpd-certification-provider-high-resolution-logo-black-transparent.png';
 
@@ -29,7 +30,7 @@ export const images = {
     bg_1,
     signup, login,
     bg_jungle_landscape, bg_jungle_landscape_2, bg_jungle_landscape_3,
-    success, check,
+    success, check, unauthorized,
     dark_bg_1, dark_bg_2, dark_bg_3, dark_bg_4, dark_bg_5, dark_bg_6, dark_bg_7, 
     dark_bg_8,
     light_bg_1,

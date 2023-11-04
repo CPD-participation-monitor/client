@@ -10,7 +10,7 @@ import { images } from '../javascript/imageImports.js';
 const LOGIN_URL = '/login';
 
 const Login = () => {
-    const { setAuth } = useAuth();
+    const {dispatch, currentUser} = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -45,6 +45,7 @@ const Login = () => {
             // const reason = 'test';
             const success = response?.data?.success;
             const reason = response?.data?.reason;
+            const role = response?.data?.role;
 
             if (!success) {
                 console.log(reason);
@@ -52,10 +53,12 @@ const Login = () => {
             }
             console.log(JSON.stringify(response?.data));
             // const accessToken = response?.data?.accessToken;
-            const role = response?.data?.role;
-            setAuth({ user: success, role });
+            dispatch({ type: "LOGIN", payload: { success, role } });
             setEmail('');
             setPwd('');
+
+            // window.sessionStorage.setItem('user', success);
+            // window.sessionStorage.setItem('role', role);
             // navigate the user to the page they were trying to access before being redirected to login
             navigate(from, { replace: true });
 

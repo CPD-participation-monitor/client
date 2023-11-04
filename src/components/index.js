@@ -6,7 +6,7 @@ export { default as LandingPage } from './LandingPage';
 export { default as AboutUs } from './AboutUs';
 export { default as CPDDashboard } from './CPDDashboard';
 export { default as OrgDashboard } from './OrgDashboard';
-export { default as AdminDashboard } from './AdminDashboard';
+export { default as OrgAdminDashboard } from './OrgAdminDashboard';
 export { default as UserDashboard } from './UserDashboard';
 export { default as NotFound } from './NotFound';
 export { default as Unauthorized } from './Unauthorized';

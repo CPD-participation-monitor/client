@@ -1,4 +1,4 @@
-import { Layout, NavBar, Register, Login, LandingPage, AboutUs, AdminDashboard, OrgDashboard, UserDashboard, CPDDashboard, NotFound, Unauthorized } from './components';
+import { Layout, NavBar, Register, Login, LandingPage, AboutUs, OrgAdminDashboard, OrgDashboard, UserDashboard, CPDDashboard, NotFound, Unauthorized } from './components';
 import RequireAuth from './javascript/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
 
@@ -29,7 +29,7 @@ function App() {
 						<Route path='userdash' element={<UserDashboard />}></Route>
 					</Route>
 					<Route element={<RequireAuth allowedRoles={[ROLES.orgSuperAdmin, ROLES.orgAdmin]} />}>
-						<Route path='orgadmindash' element={<AdminDashboard />}></Route>
+						<Route path='orgadmindash' element={<OrgAdminDashboard />}></Route>
 						<Route path='orgdash' element={<OrgDashboard />}></Route>
 					</Route>
 

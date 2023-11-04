@@ -214,7 +214,7 @@ const Register = () => {
                                                 value='eng'
                                                 className="form-check-input"
                                                 defaultChecked
-                                                onChange={e => setUserType(e.target.value)}
+                                                onChange={e => setRole(e.target.value)}
                                             />
                                             <label className="form-check-label" htmlFor="eng">Engineer</label>
                                         </div>
@@ -225,7 +225,7 @@ const Register = () => {
                                                 id='org' 
                                                 value='org'
                                                 className="form-check-input"
-                                                onChange={e => setUserType(e.target.value)} 
+                                                onChange={e => setRole(e.target.value)} 
                                             />
                                             <label className="form-check-label" htmlFor="org">Organization</label>
                                         </div>

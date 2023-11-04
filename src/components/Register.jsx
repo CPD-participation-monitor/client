@@ -15,9 +15,9 @@ const REGISTER_URL = '/signup';
 
 const Register = () => {
 
-    const [user, setUser] = useState('');
+    const [name, setName] = useState('');
     const [validName, setValidName] = useState(false);
-    const [userFocus, setUserFocus] = useState(false);
+    const [nameFocus, setNameFocus] = useState(false);
 
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
@@ -41,11 +41,11 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const result = USER_REGEX.test(user);
+        const result = USER_REGEX.test(name);
         // console.log(result);
-        // console.log(user);
+        // console.log(name);
         setValidName(result);
-    }, [user]);
+    }, [name]);
 
     useEffect(() => {
         const result = NIC_REGEX.test(nic);
@@ -68,12 +68,12 @@ const Register = () => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, nic, email, pwd, matchPwd]);
+    }, [name, nic, email, pwd, matchPwd]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
-        const v1 = USER_REGEX.test(user);
+        const v1 = USER_REGEX.test(name);
         const v2 = PWD_REGEX.test(pwd);
         const v3 = EMAIL_REGEX.test(email);
         const v4 = NIC_REGEX.test(nic);
@@ -81,11 +81,11 @@ const Register = () => {
             setErrMsg("Invalid Entry");
             return;
         }
-        // console.log(user, pwd);
+        // console.log(name, pwd);
         // setSuccess(true);
         try{
             const payload = {
-                name: user,
+                name: name,
                 email,
                 password: pwd,
                 nic,
@@ -104,7 +104,7 @@ const Register = () => {
 
             // console.log(response.accessToken);
             // console.log(JSON.stringify(response));
-            setSuccess(true);
+            // setSuccess(true);
             // clear the input fields if you want
         }catch (err){
             // optional chaining to safely access nested properties of an object
@@ -112,8 +112,8 @@ const Register = () => {
                 setErrMsg('No Server Response');
             }
             else if (err.response?.status === 409){
-                setErrMsg('Username Taken');
-                setUser('');
+                setErrMsg('Name Taken');
+                setName('');
             }
             else{
                 setErrMsg('Registration Failed');
@@ -145,18 +145,18 @@ const Register = () => {
                                             <div className="form-floating text-secondary mb-3">
                                                 <input 
                                                     type="text"
-                                                    className={`form-control border-0 rounded-5 ${!user ? "" : validName ? "is-valid" : "is-invalid"}`}
-                                                    id="username"
+                                                    className={`form-control border-0 rounded-5 ${!name ? "" : validName ? "is-valid" : "is-invalid"}`}
+                                                    id="namename"
                                                     autoComplete='off'
-                                                    onChange={e => setUser(e.target.value)}
-                                                    value={user}
+                                                    onChange={e => setName(e.target.value)}
+                                                    value={name}
                                                     required
-                                                    onFocus={() => setUserFocus(true)}
-                                                    onBlur={() => setUserFocus(false)}
-                                                    placeholder='exampleUsername'
+                                                    onFocus={() => setNameFocus(true)}
+                                                    onBlur={() => setNameFocus(false)}
+                                                    placeholder='exampleName'
                                                 />
-                                                <label className='form-label' htmlFor="username">Username</label>
-                                                <p id="uidnote" className={userFocus && user && !validName ? "invalid-feedback text-start" : "offscreen"}>
+                                                <label className='form-label' htmlFor="namename">Name</label>
+                                                <p id="uidnote" className={nameFocus && name && !validName ? "invalid-feedback text-start" : "offscreen"}>
                                                     4 to 24 characters. <br />
                                                     Must begin with a letter. <br />
                                                     Letters, numbers, underscores, hyphens allowed

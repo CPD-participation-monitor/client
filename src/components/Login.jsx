@@ -52,8 +52,8 @@ const Login = () => {
             }
             console.log(JSON.stringify(response?.data));
             // const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user: success, roles });
+            const role = response?.data?.role;
+            setAuth({ user: success, role });
             setEmail('');
             setPwd('');
             // navigate the user to the page they were trying to access before being redirected to login

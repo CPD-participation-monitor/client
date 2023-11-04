@@ -9,4 +9,5 @@ export { default as OrgDashboard } from './OrgDashboard';
 export { default as AdminDashboard } from './AdminDashboard';
 export { default as UserDashboard } from './UserDashboard';
 export { default as NotFound } from './NotFound';
+export { default as Unauthorized } from './Unauthorized';
 

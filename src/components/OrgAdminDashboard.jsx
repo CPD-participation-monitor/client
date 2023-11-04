@@ -1,54 +1,7 @@
 import React from 'react';
-import axios from '../api/axios';
-
-const CREATE_ORG_URL = '/createOrganization';
+import OrgModal from './OrgModal.jsx';
 
 const OrgAdminDashboard = () => {
-
-    const handleSubmitOrg = async (e) => {
-        e.preventDefault();
-
-        console.log('Create Organization');
-        
-        try{
-            const payload = {
-                orgName: 'Organization 1'
-            }
-            const response = await axios.post(CREATE_ORG_URL,
-                JSON.stringify(payload), 
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    withCredentials: true
-                }
-            );
-            const success = response?.data?.success;
-            const reason = response?.data?.reason;
-            // console.log(role);
-
-            if (!success) {
-                console.log(reason);
-                throw new Error(reason);
-            }
-            console.log(JSON.stringify(response?.data));
-            
-
-        }catch (err){
-            // if (!err?.response){
-            //     setErrMsg('No Server Response');
-            // }
-            // else if (err.response?.status === 400){
-            //     setErrMsg('Missing Username or Password');
-            // }
-            // else if (err.response?.status === 401){
-            //     setErrMsg('Unauthorized');
-            // }
-            // else{
-            //     setErrMsg('Login Failed');
-            // }
-        }
-    }
 
     return (
         <div className='container-fluid org-admin-dashboard col-12 m-0 mx-4 p-0'>
@@ -62,7 +15,8 @@ const OrgAdminDashboard = () => {
                 </div>
                 <div className='row'>
                     <div className='col-12 col-md-6'>
-                        <button className="create-org btn btn-outline-dark" onClick={handleSubmitOrg}>Create Organization</button>
+                        <button className="create-org btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#create-org-modal">Create Organization</button>
+                        <OrgModal />
                     </div>
                     <div className='col-12 col-md-6 d-flex flex-row'>
                         <div className="search-bar col-10 col-lg-6 mx-2">

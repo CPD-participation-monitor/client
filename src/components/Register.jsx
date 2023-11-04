@@ -5,7 +5,7 @@ import axios from '../api/axios';
 import SuccessNotification from './SuccessNotification.jsx';
 import { images } from '../javascript/imageImports.js';
 
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
+const NAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%*]).{8,24}$/;
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 // const ORG_REGEX = /^([a-zA-Z0-9\s\{\}\[\]\(\)\@\#\&\!]+)$/;
@@ -41,7 +41,7 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const result = USER_REGEX.test(name);
+        const result = NAME_REGEX.test(name);
         // console.log(result);
         // console.log(name);
         setValidName(result);
@@ -73,7 +73,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
-        const v1 = USER_REGEX.test(name);
+        const v1 = NAME_REGEX.test(name);
         const v2 = PWD_REGEX.test(pwd);
         const v3 = EMAIL_REGEX.test(email);
         const v4 = NIC_REGEX.test(nic);

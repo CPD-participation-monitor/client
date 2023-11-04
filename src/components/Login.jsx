@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { HashLink } from 'react-router-hash-link';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 
@@ -11,10 +12,14 @@ const LOGIN_URL = '/login';
 const Login = () => {
     const { setAuth } = useAuth();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+    // from is the page the user was trying to access before being redirected to login
+    const from = location.state?.from?.pathname || '/';
+
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         setErrMsg('');
@@ -28,33 +33,32 @@ const Login = () => {
                 email,
                 password: pwd
             }
-            console.log(payload);
-            // const response = await axios.post(LOGIN_URL,
-            //     JSON.stringify(payload), 
-            //     {
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         withCredentials: true
-            //     }
-            // );
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify(payload), 
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
+            );
+            // const reason = 'test';
+            const success = response?.data?.success;
+            const reason = response?.data?.reason;
 
-            setSuccess(true);
-            const reason = 'test';
-            // console.log(JSON.stringify(response?.data));
-            // const success = response?.data?.success;
-            // const reason = response?.data?.reason;
             if (!success) {
                 console.log(reason);
                 throw new Error(reason);
             }
-            // console.log(JSON.stringify(response));
+            console.log(JSON.stringify(response?.data));
             // const accessToken = response?.data?.accessToken;
-            // const roles = response?.data?.roles;
-            // setAuth({ email, pwd, roles, accessToken });
-            // setEmail('');
-            // setPwd('');
-            // setSuccess(true);
+            const roles = response?.data?.roles;
+            setAuth({ user: success, roles });
+            setEmail('');
+            setPwd('');
+            // navigate the user to the page they were trying to access before being redirected to login
+            navigate(from, { replace: true });
+
         }catch (err){
             if (!err?.response){
                 setErrMsg('No Server Response');

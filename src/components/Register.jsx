@@ -8,12 +8,12 @@ import { images } from '../javascript/imageImports.js';
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const ORG_REGEX = /^([a-zA-Z0-9\s\{\}\[\]\(\)\@\#\&\!]+)$/;
+// const ORG_REGEX = /^([a-zA-Z0-9\s\{\}\[\]\(\)\@\#\&\!]+)$/;
 const NIC_REGEX = /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/;
 
-const REGISTER_URL = '/register';
+const REGISTER_URL = '/signup';
 
-const Register = ({ type }) => {
+const Register = () => {
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
@@ -23,13 +23,11 @@ const Register = ({ type }) => {
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
 
+    const [userType, setUserType] = useState('eng');
+
     const [nic, setNic] = useState('');
     const [validNic, setValidNic] = useState(false);
     const [nicFocus, setNicFocus] = useState(false);
-
-    const [orgName, setOrgName] = useState('');
-    const [validOrgName, setValidOrgName] = useState(false);
-    const [orgNameFocus, setOrgNameFocus] = useState(false);
 
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
@@ -60,11 +58,6 @@ const Register = ({ type }) => {
     }, [email]);
 
     useEffect(() => {
-        const result = ORG_REGEX.test(orgName);
-        setValidOrgName(result);
-    }, [orgName]);
-
-    useEffect(() => {
         const result = PWD_REGEX.test(pwd);
         // console.log(result);
         // console.log(pwd);
@@ -75,7 +68,7 @@ const Register = ({ type }) => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, nic, orgName, email, pwd, matchPwd]);
+    }, [user, nic, email, pwd, matchPwd]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -83,9 +76,8 @@ const Register = ({ type }) => {
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         const v3 = EMAIL_REGEX.test(email);
-        const v4 = ORG_REGEX.test(orgName);
-        const v5 = NIC_REGEX.test(nic);
-        if (!v1 || !v2 || !v3 || !v4 || !v5){
+        const v4 = NIC_REGEX.test(nic);
+        if (!v1 || !v2 || !v3 || !v4){
             setErrMsg("Invalid Entry");
             return;
         }
@@ -93,26 +85,27 @@ const Register = ({ type }) => {
         // setSuccess(true);
         try{
             const payload = {
-                username: user,
+                name: user,
                 email,
                 password: pwd,
-                orgName,
-                nic
+                nic,
+                userType
             }
-            const response = await axios.post(REGISTER_URL, 
-                JSON.stringify(payload),
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    withCredentials: true
-                }
-            );
-            console.log(response.data);
+            // const response = await axios.post(REGISTER_URL, 
+            //     JSON.stringify(payload),
+            //     {
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         withCredentials: true
+            //     }
+            // );
+            // console.log(response.data);
+
             // console.log(response.accessToken);
             // console.log(JSON.stringify(response));
             setSuccess(true);
-            // clear the input fields
+            // clear the input fields if you want
         }catch (err){
             // optional chaining to safely access nested properties of an object
             if (!err?.response) {
@@ -212,25 +205,31 @@ const Register = ({ type }) => {
                                         </p>
                                     </div>
 
-                                    {type === 'org' ? <div className="form-floating text-secondary mb-3">
-                                        <input 
-                                            type="text"
-                                            className={`form-control border-0 rounded-5 ${!orgName ? "" : validOrgName ? "is-valid" : "is-invalid"}`}
-                                            id="orgName"
-                                            autoComplete='off'
-                                            onChange={e => setOrgName(e.target.value)}
-                                            value={orgName}
-                                            required
-                                            onFocus={() => setOrgNameFocus(true)}
-                                            onBlur={() => setOrgNameFocus(false)}
-                                            placeholder='exampleUsername'
-                                        />
-                                        <label className='form-label' htmlFor="orgName">Organization</label>
-                                        <p id="uidnote" className={orgNameFocus && orgName && !validOrgName ? "invalid-feedback text-start" : "offscreen"}>
-                                            Alphanumerics, curly, squared, angular brackets allowed<br />
-                                            @, #, &, ! allowed.
-                                        </p>
-                                    </div> : null}
+                                    <div className="form-floating text-secondary mb-3 text-start ps-3">
+                                        <div className="form-check form-check-inline">
+                                            <input 
+                                                type="radio" 
+                                                name='userTypeOptions' 
+                                                id='eng' 
+                                                value='eng'
+                                                className="form-check-input"
+                                                defaultChecked
+                                                onChange={e => setUserType(e.target.value)}
+                                            />
+                                            <label className="form-check-label" htmlFor="eng">Engineer</label>
+                                        </div>
+                                        <div className="form-check form-check-inline">
+                                            <input 
+                                                type="radio" 
+                                                name='userTypeOptions' 
+                                                id='org' 
+                                                value='org'
+                                                className="form-check-input"
+                                                onChange={e => setUserType(e.target.value)} 
+                                            />
+                                            <label className="form-check-label" htmlFor="org">Organization</label>
+                                        </div>
+                                    </div>
 
                                     <div className="row g-2">
                                         <div className="col-lg">

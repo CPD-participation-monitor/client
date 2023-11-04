@@ -2,6 +2,8 @@ import { React, useEffect } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { useLocation } from 'react-router-dom';
 
+import { images } from '../javascript/imageImports';
+
 const NavBar = () => {
     
     const location = useLocation();
@@ -24,17 +26,19 @@ const NavBar = () => {
     return (
         <nav className={`navbar fixed-top navbar-expand-lg ${location.pathname.includes('/register') || location.pathname.includes('/login') ? "navbar-dark bg-dark" : "navbar-light bg-light"} m-0 p-0 py-3 bg-transparent`}>
             <div className="container-fluid">
-                <HashLink className="navbar-brand" to="/">CPD</HashLink>
+                <HashLink className="navbar-brand" to="/">
+                    <img className='logo img-fluid' src={images.logo_1} alt="logo" />
+                </HashLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div className="navbar-nav col-12 nav-fill py-3">
-                        <HashLink className="nav-link active" aria-current="page" to="/">What is CPD?</HashLink>
-                        <HashLink className="nav-link" to="/findcpd">Find CPD</HashLink>
-                        <HashLink className="nav-link" to="/about">About Us</HashLink>
-                        <HashLink className="nav-link" to="/userdash">My CPD</HashLink>
-                        <HashLink className="nav-link" to="/register-org">Become a CPD Provider</HashLink>
+                    <div className="navbar-nav col-12 justify-content-end py-3">
+                        <HashLink className="nav-link px-5 active" aria-current="page" to="/">What is CPD?</HashLink>
+                        <HashLink className="nav-link px-5" to="/findcpd">Find CPD</HashLink>
+                        <HashLink className="nav-link px-5" to="/about">About Us</HashLink>
+                        <HashLink className="nav-link px-5" to="/userdash">My CPD</HashLink>
+                        {/* <HashLink className="nav-link text-dark bg-warning rounded-1" to="/register-org">Become a CPD Provider</HashLink> */}
                     </div>
                 </div>
             </div>

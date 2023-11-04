@@ -7,6 +7,8 @@ import bg_jungle_landscape_3 from '../assets/images/jungle_landscape_3.jpeg';
 import success from '../assets/images/success_illustration_removebg.png';
 import check from '../assets/images/green_check.svg';
 
+import logo_1 from '../assets/images/logos/cpd-certification-provider-high-resolution-logo-black-transparent.png';
+
 import dark_bg_1 from '../assets/images/dark_bgs/1.jpg';
 import dark_bg_2 from '../assets/images/dark_bgs/2.jpg';
 import dark_bg_3 from '../assets/images/dark_bgs/3.jpg';
@@ -33,4 +35,5 @@ export const images = {
     light_bg_1,
     cover_1, cover_2,
     blackpink,
+    logo_1,
 };

@@ -29,18 +29,21 @@ const Login = () => {
                 password: pwd
             }
             console.log(payload);
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify(payload), 
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    withCredentials: true
-                }
-            );
-            console.log(JSON.stringify(response?.data));
-            const success = response?.data?.success;
-            const reason = response?.data?.reason;
+            // const response = await axios.post(LOGIN_URL,
+            //     JSON.stringify(payload), 
+            //     {
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         withCredentials: true
+            //     }
+            // );
+
+            setSuccess(true);
+            const reason = 'test';
+            // console.log(JSON.stringify(response?.data));
+            // const success = response?.data?.success;
+            // const reason = response?.data?.reason;
             if (!success) {
                 console.log(reason);
                 throw new Error(reason);

@@ -96,37 +96,33 @@ const OrgAdminDashboard = () => {
     }, []);
 
     return (
-        <div className='container-fluid org-admin-dashboard col-12 m-0 mx-4 p-0'>
-            <section className="title-section my-5 pt-5">
+        <div className='container-fluid org-admin-dashboard col-10 m-0 mx-auto p-0'>
+            <section className="admin-dashboard-title my-5 pt-5">
                 <h1 className='display-6 my-5 pt-5'>Admin Dashboard</h1>
             </section>
 
             <section className='content'>
-                <div className="row">
+                <div className="row mb-3">
                     <p>Create an organization or join an existing organization</p>
-                </div>
-                <div className='row'>
-                    <div className='col-12 col-md-6'>
-                        <button className="create-org btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#create-org-modal">Create Organization</button>
+                    <div className='col-10 col-md-3'>
+                        <button className="create-org btn btn-outline-dark col-10 mx-auto" data-bs-toggle="modal" data-bs-target="#create-org-modal">Create Organization</button>
                         <OrgModal creator={currentUser?.user} />
-                    </div>
-                    <div className='col-12 col-md-6 d-flex flex-row'>
-                        <div className="search-bar col-10 col-lg-6 mx-2">
-                            <input 
-                                type="text" 
-                                name="search" 
-                                id="search" 
-                                className="form-control form-input" 
-                                placeholder='Search organizations...'
-                                onChange={e => setSearchTerm(e.target.value)}
-                            />
-                        </div>
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col-10 mx-auto text-center my-5">
-                        {!errMsgOrg ? <table className='col-12 my-5 table table-striped table-hover align-middle'>
+                <div className="row mt-5">
+                    <div className="search-bar col-10 col-lg-6 mx-auto">
+                        <input 
+                            type="text" 
+                            name="search" 
+                            id="search" 
+                            className="form-control form-input" 
+                            placeholder='Search organizations...'
+                            onChange={e => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <div className="col-10 mx-auto text-center table-responsive">
+                        {!errMsgOrg ? <table className='col-12 mt-3 mb-5 table table-striped table-hover align-middle'>
                             <thead className='my-2'>
                                 <tr>
                                     <th scope="col">Organization Name</th>
@@ -157,57 +153,56 @@ const OrgAdminDashboard = () => {
                         </table> : <span className='text-center my-5 text-danger'>{errMsgOrg}</span>}
                     </div>
                 </div>
+            </section>
 
-                <div className='row'>
-                    <section className="title-section">
-                        <h1 className='display-6'>Requests</h1>
-                    </section>
-                    <div className='col-12 col-md-6 d-flex flex-row my-5'>
-                        <div className="search-bar col-10 col-lg-6 mx-2">
-                            <input 
-                                type="text" 
-                                name="search" 
-                                id="search" 
-                                className="form-control form-input" 
-                                placeholder='Search requests...'
-                                onChange={e => setSearchTerm(e.target.value)}
-                            />
-                        </div>
+            <section className="request-title-section">
+                <h1 className='display-6'>Requests</h1>
+            </section>
+
+            <section className="content">
+                <div className="row mt-5">
+                    <div className="search-bar col-10 col-lg-6 mx-auto">
+                        <input 
+                            type="text" 
+                            name="search" 
+                            id="search" 
+                            className="form-control form-input" 
+                            placeholder='Search requests...'
+                            onChange={e => setSearchTerm(e.target.value)}
+                        />
                     </div>
-                    <div className="row">
-                        <div className="col-10 mx-auto text-center my-5 table-responsive">
-                            {!errMsgReq ? <table className='col-12 my-5 table table-striped table-hover align-middle'>
-                                <thead className='my-2'>
-                                    <tr>
-                                        <th scope="col">Request ID</th>
-                                        <th scope="col">Admin Name</th>
-                                        <th scope="col">Admin ID</th>
-                                        <th scope="col">Admin Email</th>
-                                        <th scope="col">Admin NIC</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className='my-2'>
-                                    {
-                                        filteredRequests.map(req => {
-                                            return (
-                                                <tr key={req.id}>
-                                                    <td>{req.id}</td>
-                                                    <td>{req.admin.name}</td>
-                                                    <td>{req.admin.id}</td>
-                                                    <td>{req.admin.email}</td>
-                                                    <td>{req.admin.nic}</td>
-                                                    <td>
-                                                        <button className="btn btn-outline-dark mx-2">View</button>
-                                                        <button className="btn btn-outline-dark mx-2">Join</button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })
-                                    }
-                                </tbody>
-                            </table> : <span className='text-center my-5 text-danger'>{errMsgReq}</span>}
-                        </div>
+                    <div className="col-10 mx-auto text-center my-5 table-responsive">
+                        {!errMsgReq ? <table className='col-12 my-5 table table-striped table-hover align-middle'>
+                            <thead className='my-2'>
+                                <tr>
+                                    <th scope="col">Request ID</th>
+                                    <th scope="col">Admin Name</th>
+                                    <th scope="col">Admin ID</th>
+                                    <th scope="col">Admin Email</th>
+                                    <th scope="col">Admin NIC</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className='my-2'>
+                                {
+                                    filteredRequests.map(req => {
+                                        return (
+                                            <tr key={req.id}>
+                                                <td>{req.id}</td>
+                                                <td>{req.admin.name}</td>
+                                                <td>{req.admin.id}</td>
+                                                <td>{req.admin.email}</td>
+                                                <td>{req.admin.nic}</td>
+                                                <td>
+                                                    <button className="btn btn-outline-success mx-2">Approve</button>
+                                                    <button className="btn btn-outline-danger mx-2">Decline</button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
+                            </tbody>
+                        </table> : <span className='text-center my-5 text-danger'>{errMsgReq}</span>}
                     </div>
                 </div>
             </section>

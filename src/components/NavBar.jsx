@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { useLocation } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
+import scroll from '../javascript/scroll';
 
 import ROLES from '../constants/roles';
 
@@ -12,17 +13,6 @@ const NavBar = () => {
     const [navLink, setNavLink] = useState('');
     const { currentUser } = useAuth();
     const location = useLocation();
-
-    const scroll = () => {
-        const navbar = document.getElementsByClassName('navbar')[0];
-        window.onscroll = function(){
-            if (window.scrollY > 80) {
-                navbar.classList.remove('bg-transparent');
-            } else {
-                navbar.classList.add('bg-transparent');
-            }
-        };
-    }
 
     useEffect(() => {
         scroll();

@@ -2,7 +2,8 @@ import { React, useEffect, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { useLocation } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
-import Logout from './Logout';
+
+import ROLES from '../constants/roles';
 
 import { images } from '../javascript/imageImports';
 
@@ -29,7 +30,7 @@ const NavBar = () => {
 
     useEffect(() => {
         // console.log(currentUser?.role);
-        setNavLink(currentUser?.role === 6445 ? "/orgadmindash" : "/userdash");
+        setNavLink(currentUser?.role === ROLES.orgAdmin ? "/orgadmindash" : currentUser?.role === ROLES.eng ? "/engdash" : "/login");
     }, [currentUser]);
 
     return (
@@ -42,16 +43,15 @@ const NavBar = () => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div className="navbar-nav col-12 justify-content-end py-3">
+                    <div className={`navbar-nav justify-content-end py-3 ${currentUser ? "col-11" : "col-12"}`}>
                         <HashLink className="nav-link px-5 active" aria-current="page" to="/">What is CPD?</HashLink>
                         <HashLink className="nav-link px-5" to="/findcpd">Find CPD</HashLink>
                         <HashLink className="nav-link px-5" to="/about">About Us</HashLink>
                         <HashLink className="nav-link px-5" to={navLink}>My CPD</HashLink>
-                        {/* <HashLink className={`nav-link text-danger rounded-1 btn`}  data-bs-toggle="modal" data-bs-target="#logout-modal">Log Out</HashLink> */}
                     </div>
+                    {currentUser ? <button className={`btn text-danger rounded-1 btn-outline-danger col-1`}  data-bs-toggle="modal" data-bs-target="#logout-modal">Log Out</button> : null}
                 </div>
             </div>
-            {/* <Logout /> */}
         </nav>
     );
 }

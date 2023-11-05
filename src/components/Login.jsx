@@ -6,11 +6,22 @@ import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 
 import { images } from '../javascript/imageImports.js';
+import ROLES from '../constants/roles';
 
 const LOGIN_URL = '/login';
 
 const Login = () => {
-    const {dispatch, currentUser} = useAuth();
+    const { currentUser, dispatch } = useAuth();
+
+    useEffect(() => {
+        if (currentUser){
+            if (currentUser.role === ROLES.orgAdmin){
+                navigate('/orgadmindash', { replace: true });
+            }else if (currentUser.role === ROLES.eng){
+                navigate('/engdash', { replace: true });
+            }
+        }
+    });
 
     const navigate = useNavigate();
     const location = useLocation();

@@ -4,6 +4,10 @@ import { HashLink } from 'react-router-hash-link';
 import axios from '../api/axios';
 import SuccessNotification from './SuccessNotification.jsx';
 import { images } from '../javascript/imageImports.js';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+
+import ROLES from '../constants/roles';
 
 const NAME_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%*]).{8,24}$/;
@@ -14,6 +18,18 @@ const NIC_REGEX = /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/;
 const REGISTER_URL = '/signup';
 
 const Register = () => {
+    const { currentUser } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (currentUser){
+            if (currentUser.role === ROLES.orgAdmin){
+                navigate('/orgadmindash', { replace: true });
+            }else if (currentUser.role === ROLES.eng){
+                navigate('/engdash', { replace: true });
+            }
+        }
+    });
 
     const [name, setName] = useState('');
     const [validName, setValidName] = useState(false);

@@ -1,32 +1,28 @@
-import { Layout, NavBar, Register, Login, LandingPage, AboutUs, OrgAdminDashboard, OrgDashboard, UserDashboard, CPDDashboard, NotFound, Unauthorized } from './components';
+import { Layout, NavBar, Register, Login, Logout, LandingPage, AboutUs, OrgAdminDashboard, OrgDashboard, UserDashboard, CPDDashboard, NotFound, Unauthorized } from './components';
 import RequireAuth from './javascript/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
 
-function App() {
+import ROLES from './constants/roles';
 
-	const ROLES = {
-		eng: 2044,
-		orgAdmin: 6445,
-		orgSuperAdmin: 3112,
-		admin: 1344
-	};
+function App() {
 
 	return (
 		<main className="App">
 			<NavBar />
+			<Logout /> 
 			<Routes>
 				<Route path='/' element={<Layout />}>
 					{/* public routes */}	
-					<Route path='' element={<LandingPage />}></Route>
+					<Route exact path='/' element={<LandingPage />}></Route>
 					<Route path='register' element={<Register />}></Route>
 					<Route path='login' element={<Login />}></Route>
 					<Route path='about' element={<AboutUs />}></Route>
 					<Route path='findcpd' element={<CPDDashboard />}></Route>
-					<Route path='unauthorized' element={<Unauthorized />}></Route>
+					{/* <Route path='unauthorized' element={<Unauthorized />}></Route> */}
 
 					{/* protected routes */}
 					<Route element={<RequireAuth allowedRoles={[ROLES.eng]} />}>
-						<Route path='userdash' element={<UserDashboard />}></Route>
+						<Route path='engdash' element={<UserDashboard />}></Route>
 					</Route>
 					<Route element={<RequireAuth allowedRoles={[ROLES.orgSuperAdmin, ROLES.orgAdmin]} />}>
 						<Route path='orgadmindash' element={<OrgAdminDashboard />}></Route>

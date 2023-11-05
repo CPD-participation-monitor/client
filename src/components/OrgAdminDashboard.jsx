@@ -18,8 +18,7 @@ const OrgAdminDashboard = () => {
         return org.name.toLowerCase().includes(searchTerm.toLowerCase()) || org.email.toLowerCase().includes(searchTerm.toLowerCase()) || org.members.toLowerCase().includes(searchTerm.toLowerCase()) || org.id.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
-    const getOrgs = async (e) => {
-        e.preventDefault();
+    const getOrgs = async () => {
 
         const orgs = [];
 

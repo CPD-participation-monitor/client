@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { useLocation } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
+import Logout from './Logout';
 
 import { images } from '../javascript/imageImports';
 
@@ -46,10 +47,11 @@ const NavBar = () => {
                         <HashLink className="nav-link px-5" to="/findcpd">Find CPD</HashLink>
                         <HashLink className="nav-link px-5" to="/about">About Us</HashLink>
                         <HashLink className="nav-link px-5" to={navLink}>My CPD</HashLink>
-                        {/* <HashLink className="nav-link text-dark bg-warning rounded-1" to="/register-org">Become a CPD Provider</HashLink> */}
+                        {/* <HashLink className={`nav-link text-danger rounded-1 btn`}  data-bs-toggle="modal" data-bs-target="#logout-modal">Log Out</HashLink> */}
                     </div>
                 </div>
             </div>
+            {/* <Logout /> */}
         </nav>
     );
 }

@@ -54,7 +54,7 @@ const OrgModal = () => {
                     withCredentials: true
                 }
             );
-            const success = response?.data?.success;
+            const successRes = response?.data?.success;
             const reason = response?.data?.reason;
             // console.log(role);
 
@@ -63,6 +63,7 @@ const OrgModal = () => {
                 throw new Error(reason);
             }
             console.log(JSON.stringify(response?.data));
+            setSuccess(successRes);
             
 
         }catch (err){
@@ -84,11 +85,8 @@ const OrgModal = () => {
     return (
         <div className="modal fade create-org-form p-5" id='create-org-modal' tabIndex="-1">
             <div className="modal-dialog modal-dialog-centered col-10 col-md-6 col-lg-4 mx-auto text-center">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">Create Organization</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                <div className="modal-content p-4 px-5">
+                    <h5 className="modal-title display-6 text-center my-3">Create Organization</h5>
                     <div className="modal-body">
                         <p className={`mx-auto my-3 ${errMsg ? "errmsg" : "offscreen"}`}>{errMsg}</p>
                         <form className='form needs-validation' onSubmit={handleSubmitOrg} noValidate>

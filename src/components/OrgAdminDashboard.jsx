@@ -15,7 +15,7 @@ const OrgAdminDashboard = () => {
 
     const filteredOrgs = orgs.filter(org => {
         // check if the search term is included in the org name, email, members, or id
-        return org.name.toLowerCase().includes(searchTerm.toLowerCase()) || org.email.toLowerCase().includes(searchTerm.toLowerCase()) || org.members.toLowerCase().includes(searchTerm.toLowerCase()) || org.id.toLowerCase().includes(searchTerm.toLowerCase());
+        return org.name.toLowerCase().includes(searchTerm.toLowerCase()) || org.email.includes(searchTerm.toLowerCase()) || org.members == searchTerm || org.id.includes(searchTerm.toString().toLowerCase());
     });
 
     const getOrgs = async () => {
@@ -42,6 +42,7 @@ const OrgAdminDashboard = () => {
             }
 
             setSuccess(successRes);
+            console.log(orgs);
             setOrgs(orgs);
 
         } catch (err){
@@ -51,6 +52,7 @@ const OrgAdminDashboard = () => {
     }
 
     useEffect(() => {
+        // console.log('OrgAdminDashboard');
         getOrgs();
     }, []);
 
@@ -89,6 +91,7 @@ const OrgAdminDashboard = () => {
                                 <tr>
                                     <th scope="col">Organization Name</th>
                                     <th scope="col">Organization ID</th>
+                                    <th scope="col">Organization Email</th>
                                     <th scope="col">Members</th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -99,6 +102,7 @@ const OrgAdminDashboard = () => {
                                         return (
                                             <tr key={org.id}>
                                                 <td>{org.name}</td>
+                                                <td>{org.id}</td>
                                                 <td>{org.email}</td>
                                                 <td>{org.members}</td>
                                                 <td>

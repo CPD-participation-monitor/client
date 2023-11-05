@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../api/axios';
 
-const CREATE_ORG_URL = '/createOrganization';
+const CREATE_ORG_URL = '/api-org/createOrganization';
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const ORG_NAME_REGEX = /^([a-zA-Z0-9\s\{\}\[\]\(\)\@\#\&\!]+)$/;
+const ORG_NAME_REGEX = /^([a-zA-Z0-9\s{}[\]()@#&!]+)$/;
 
 const OrgModal = () => {
 

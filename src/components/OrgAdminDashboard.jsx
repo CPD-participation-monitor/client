@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import OrgModal from './OrgModal.jsx';
+import axios from '../api/axios';
+
+const GET_ORGS_URL = '/api-org/getOrgs';
 
 const OrgAdminDashboard = () => {
+
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+
+    const [orgs, setOrgs] = useState([]);
+
+    const getOrgs = async (e) => {
+        e.preventDefault();
+
+        const orgs = [];
+
+        try{
+            const response = await axios.get(GET_ORGS_URL,
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                }
+            );
+            const successRes = response?.data?.success;
+            const reason = response?.data?.reason;
+            const orgs = response?.data?.orgs;
+            // console.log(role);
+
+            if (!successRes){
+                setErrMsg(reason);
+                setSuccess(successRes);
+            }
+
+            setSuccess(successRes);
+            setOrgs(orgs);
+
+        } catch (err){
+            setErrMsg('Something went wrong');
+            setSuccess(false);
+        }
+    }
 
     return (
         <div className='container-fluid org-admin-dashboard col-12 m-0 mx-4 p-0'>
@@ -25,8 +66,8 @@ const OrgAdminDashboard = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-10 mx-auto">
-                        <table className='col-12 my-5 table table-striped table-hover'>
+                    <div className="col-10 mx-auto text-center my-5">
+                        {success ? <table className='col-12 my-5 table table-striped table-hover'>
                             <thead className='my-2'>
                                 <tr>
                                     <th scope="col">Organization Name</th>
@@ -36,32 +77,23 @@ const OrgAdminDashboard = () => {
                                 </tr>
                             </thead>
                             <tbody className='my-2'>
-                                <tr>
-                                    <td>Organization 1</td>
-                                    <td>123456</td>
-                                    <td>10</td>
-                                    <td>
-                                        <button className="btn btn-outline-dark">Join</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Organization 2</td>
-                                    <td>654321</td>
-                                    <td>5</td>
-                                    <td>
-                                        <button className="btn btn-outline-dark">Join</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Organization 3</td>
-                                    <td>987654</td>
-                                    <td>2</td>
-                                    <td>
-                                        <button className="btn btn-outline-dark">Join</button>
-                                    </td>
-                                </tr>
+                                {
+                                    orgs.map(org => {
+                                        return (
+                                            <tr key={org.id}>
+                                                <td>{org.name}</td>
+                                                <td>{org.email}</td>
+                                                <td>{org.members}</td>
+                                                <td>
+                                                    <button className="btn btn-outline-dark mx-2">View</button>
+                                                    <button className="btn btn-outline-dark mx-2">Join</button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
                             </tbody>
-                        </table>
+                        </table> : <span className='text-center my-5 text-danger'>{errMsg ? errMsg : "No organizations to be found"}</span>}
                     </div>
                 </div>
             </section>

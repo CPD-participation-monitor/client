@@ -49,7 +49,7 @@ const NavBar = () => {
                         <HashLink className="nav-link px-5" to="/about">About Us</HashLink>
                         <HashLink className="nav-link px-5" to={navLink}>My CPD</HashLink>
                     </div>
-                    {currentUser?.user ? <button className={`btn text-danger rounded-1 btn-outline-danger col-1`}  data-bs-toggle="modal" data-bs-target="#logout-modal">Log Out</button> : null}
+                    {currentUser?.user ? <button className={`btn text-danger rounded-5 nav-link col-1`}  data-bs-toggle="modal" data-bs-target="#logout-modal">Log Out</button> : null}
                 </div>
             </div>
         </nav>

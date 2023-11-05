@@ -46,7 +46,7 @@ const OrgModal = ({ creator }) => {
                 email,
                 creatorEmail: creator?.email
             }
-            console.log(payload);
+            // console.log(payload);
             const response = await axios.post(CREATE_ORG_URL,
                 JSON.stringify(payload), 
                 {
@@ -73,13 +73,16 @@ const OrgModal = ({ creator }) => {
                 setErrMsg('No Server Response');
             }
             else if (err.response?.status === 400){
-                setErrMsg('Missing Username or Password');
+                setErrMsg('Missing Entry');
             }
             else if (err.response?.status === 401){
                 setErrMsg('Unauthorized');
             }
+            else if (err.response?.status === 409){
+                setErrMsg('Organization already exists');
+            }
             else{
-                setErrMsg('Login Failed');
+                setErrMsg('Something went wrong');
             }
         }
     }

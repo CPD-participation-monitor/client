@@ -9,10 +9,14 @@ const GET_REQUESTS_URL = '/api-org/getRequests';
 const OrgAdminDashboard = () => {
     const { currentUser } = useAuth();
 
-    const [errMsg, setErrMsg] = useState('');
+    const [errMsgOrg, setErrMsgOrg] = useState('');
     const [successOrg, setSuccessOrg] = useState(false);
+    
+    const [errMsgReq, setErrMsgReq] = useState('');
+    const [successReq, setSuccessReq] = useState(false);
 
     const [orgs, setOrgs] = useState([]);
+    // requests = [{id: '', admin: {name: '', id: '', email: '', nic: ''}}]
     const [requests, setRequests] = useState([]);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -36,58 +40,59 @@ const OrgAdminDashboard = () => {
             const orgs = response?.data?.orgs;
             const successRes = response?.data?.success;
             const reason = response?.data?.reason;
-            // console.log(role);
 
             // check if orgs is empty
             if (orgs.length == 0){
-                setErrMsg('No organizations to be found');
+                setErrMsgOrg('No organizations to be found');
             }
-            if (!successRes){
-                setErrMsg(reason);
-            }
+
             setSuccessOrg(successRes);
             setOrgs(orgs);
 
         } catch (err){
-            setErrMsg('Something went wrong');
+            setErrMsgOrg('Something went wrong');
             setSuccessOrg(false);
         }
     }
 
-    // const getRequests = async () => {
+    const filteredRequests = requests.filter(req => {
+        return req.admin.name.toLowerCase().includes(searchTerm.toLowerCase()) || req.admin.email.includes(searchTerm.toLowerCase()) || req.admin.nic.includes(searchTerm.toLowerCase()) || req.admin.id === searchTerm.toString().toLowerCase();
+    });
+
+    const getRequests = async () => {
             
-    //     try{
-    //         const response = await axios.get(GET_REQUESTS_URL,
-    //             {
-    //                 headers: {
-    //                     'Content-Type': 'application/json'
-    //                 },
-    //                 withCredentials: true
-    //             }
-    //         );
-    //         const successRes = response?.data?.success;
-    //         const reason = response?.data?.reason;
-    //         const requests = response?.data?.requests;
-    //         // console.log(role);
+        try{
+            const response = await axios.post(GET_REQUESTS_URL,
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true,
+                    payload: {
+                        adminEmail: currentUser?.user?.email
+                    }
+                }
+            );
+            const successRes = response?.data?.success;
+            const reason = response?.data?.reason;
+            const requests = response?.data?.requests;
 
-    //         if (!successRes){
-    //             setErrMsg(reason);
-    //             setSuccess(successRes);
-    //         }
+            if (requests.length == 0){
+                setErrMsgReq('No pending requests');
+            }
 
-    //         setSuccess(successRes);
-    //         console.log(orgs);
-    //         setOrgs(orgs);
+            setSuccessReq(successRes);
+            setRequests(requests);
 
-    //     } catch (err){
-    //         setErrMsg('Something went wrong');
-    //         setSuccess(false);
-    //     }
-    // }
+        } catch (err){
+            setErrMsgReq('Something went wrong');
+            setSuccessReq(false);
+        }
+    }
 
     useEffect(() => {
-        // console.log('OrgAdminDashboard');
         getOrgs();
+        getRequests();
     }, []);
 
     return (
@@ -121,7 +126,7 @@ const OrgAdminDashboard = () => {
 
                 <div className="row">
                     <div className="col-10 mx-auto text-center my-5">
-                        {successOrg ? <table className='col-12 my-5 table table-striped table-hover'>
+                        {!errMsgOrg ? <table className='col-12 my-5 table table-striped table-hover align-middle'>
                             <thead className='my-2'>
                                 <tr>
                                     <th scope="col">Organization Name</th>
@@ -149,7 +154,7 @@ const OrgAdminDashboard = () => {
                                     })
                                 }
                             </tbody>
-                        </table> : <span className='text-center my-5 text-danger'>{errMsg ? errMsg : "No organizations to be found"}</span>}
+                        </table> : <span className='text-center my-5 text-danger'>{errMsgOrg}</span>}
                     </div>
                 </div>
 
@@ -170,8 +175,8 @@ const OrgAdminDashboard = () => {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-10 mx-auto text-center my-5">
-                            {/* {success ? <table className='col-12 my-5 table table-striped table-hover'>
+                        <div className="col-10 mx-auto text-center my-5 table-responsive">
+                            {!errMsgReq ? <table className='col-12 my-5 table table-striped table-hover align-middle'>
                                 <thead className='my-2'>
                                     <tr>
                                         <th scope="col">Request ID</th>
@@ -184,13 +189,14 @@ const OrgAdminDashboard = () => {
                                 </thead>
                                 <tbody className='my-2'>
                                     {
-                                        filteredRequests.map(admin => {
+                                        filteredRequests.map(req => {
                                             return (
-                                                <tr key={admin.id}>
-                                                    <td>{admin.name}</td>
-                                                    <td>{admin.id}</td>
-                                                    <td>{admin.email}</td>
-                                                    <td>{admin.members}</td>
+                                                <tr key={req.id}>
+                                                    <td>{req.id}</td>
+                                                    <td>{req.admin.name}</td>
+                                                    <td>{req.admin.id}</td>
+                                                    <td>{req.admin.email}</td>
+                                                    <td>{req.admin.nic}</td>
                                                     <td>
                                                         <button className="btn btn-outline-dark mx-2">View</button>
                                                         <button className="btn btn-outline-dark mx-2">Join</button>
@@ -200,7 +206,7 @@ const OrgAdminDashboard = () => {
                                         })
                                     }
                                 </tbody>
-                            </table> : <span className='text-center my-5 text-danger'>{errMsg ? errMsg : "No organizations to be found"}</span>} */}
+                            </table> : <span className='text-center my-5 text-danger'>{errMsgReq}</span>}
                         </div>
                     </div>
                 </div>

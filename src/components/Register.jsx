@@ -22,10 +22,10 @@ const Register = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (currentUser){
-            if (currentUser.role === ROLES.orgAdmin){
+        if (currentUser?.user){
+            if (currentUser?.user?.role === ROLES.orgAdmin){
                 navigate('/orgadmindash', { replace: true });
-            }else if (currentUser.role === ROLES.eng){
+            }else if (currentUser?.user?.role === ROLES.eng){
                 navigate('/engdash', { replace: true });
             }
         }

@@ -14,10 +14,10 @@ const Login = () => {
     const { currentUser, dispatch } = useAuth();
 
     useEffect(() => {
-        if (currentUser){
-            if (currentUser.role === ROLES.orgAdmin){
+        if (currentUser?.user){
+            if (currentUser?.user?.role === ROLES.orgAdmin){
                 navigate('/orgadmindash', { replace: true });
-            }else if (currentUser.role === ROLES.eng){
+            }else if (currentUser?.user?.role === ROLES.eng){
                 navigate('/engdash', { replace: true });
             }
         }
@@ -55,16 +55,16 @@ const Login = () => {
             );
             const success = response?.data?.success;
             const reason = response?.data?.reason;
-            const role = response?.data?.role;
-            // console.log(role);
+            const user = response?.data?.user;
+            console.log(response?.data);
 
             if (!success) {
                 console.log(reason);
                 throw new Error(reason);
             }
-            console.log(JSON.stringify(response?.data));
+            // console.log(JSON.stringify(response?.data));
             // const accessToken = response?.data?.accessToken;
-            dispatch({ type: "LOGIN", payload: { success, role } });
+            dispatch({ type: "LOGIN", payload: { success, user } });
             // navigate the user to the page they were trying to access before being redirected to login
             navigate(from, { replace: true });
 

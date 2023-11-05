@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import OrgModal from './OrgModal.jsx';
 import axios from '../api/axios';
+import useAuth from '../hooks/useAuth';
 
 const GET_ORGS_URL = '/api-org/getOrgs';
 const GET_REQUESTS_URL = '/api-org/getRequests';
 
 const OrgAdminDashboard = () => {
+    const { currentUser } = useAuth();
 
     const [errMsg, setErrMsg] = useState('');
     const [successOrg, setSuccessOrg] = useState(false);
@@ -101,7 +103,7 @@ const OrgAdminDashboard = () => {
                 <div className='row'>
                     <div className='col-12 col-md-6'>
                         <button className="create-org btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#create-org-modal">Create Organization</button>
-                        <OrgModal />
+                        <OrgModal creator={currentUser?.user} />
                     </div>
                     <div className='col-12 col-md-6 d-flex flex-row'>
                         <div className="search-bar col-10 col-lg-6 mx-2">

@@ -6,7 +6,7 @@ const CREATE_ORG_URL = '/api-org/createOrganization';
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const ORG_NAME_REGEX = /^([a-zA-Z0-9\s{}[\]()@#&!]+)$/;
 
-const OrgModal = () => {
+const OrgModal = ({ creator }) => {
 
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
@@ -43,8 +43,10 @@ const OrgModal = () => {
         try{
             const payload = {
                 orgName,
-                email
+                email,
+                creatorEmail: creator?.email
             }
+            console.log(payload);
             const response = await axios.post(CREATE_ORG_URL,
                 JSON.stringify(payload), 
                 {

@@ -15,7 +15,7 @@ const Login = () => {
 
     useEffect(() => {
         if (currentUser?.user){
-            if (currentUser?.user?.role === ROLES.orgAdmin){
+            if (currentUser?.user?.role === ROLES.orgAdmin || currentUser?.user?.role === ROLES.orgSuperAdmin){
                 navigate('/orgadmindash', { replace: true });
             }else if (currentUser?.user?.role === ROLES.eng){
                 navigate('/engdash', { replace: true });
@@ -24,9 +24,9 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
-    const location = useLocation();
+    // const location = useLocation();
     // from is the page the user was trying to access before being redirected to login
-    const from = location.state?.from?.pathname || '/';
+    // const from = location.state?.from?.pathname || '/';
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
@@ -56,17 +56,16 @@ const Login = () => {
             const success = response?.data?.success;
             const reason = response?.data?.reason;
             const user = response?.data?.user;
-            console.log(response?.data);
+            // console.log(response?.data);
 
             if (!success) {
                 console.log(reason);
                 throw new Error(reason);
             }
-            // console.log(JSON.stringify(response?.data));
-            // const accessToken = response?.data?.accessToken;
             dispatch({ type: "LOGIN", payload: { success, user } });
             // navigate the user to the page they were trying to access before being redirected to login
-            navigate(from, { replace: true });
+            const navigateTo = (user?.role === ROLES.orgAdmin || user?.role === ROLES.orgSuperAdmin) ? '/orgadmindash' : user?.role === ROLES.eng ? '/engdash' : '/';
+            navigate(navigateTo, { replace: true });
 
         }catch (err){
             if (!err?.response){

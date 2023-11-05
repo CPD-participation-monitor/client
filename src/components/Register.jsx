@@ -23,7 +23,7 @@ const Register = () => {
 
     useEffect(() => {
         if (currentUser?.user){
-            if (currentUser?.user?.role === ROLES.orgAdmin){
+            if (currentUser?.user?.role === ROLES.orgAdmin || currentUser?.user?.role === ROLES.orgSuperAdmin){
                 navigate('/orgadmindash', { replace: true });
             }else if (currentUser?.user?.role === ROLES.eng){
                 navigate('/engdash', { replace: true });

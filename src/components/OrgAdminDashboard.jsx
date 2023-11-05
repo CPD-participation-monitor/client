@@ -11,6 +11,13 @@ const OrgAdminDashboard = () => {
 
     const [orgs, setOrgs] = useState([]);
 
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredOrgs = orgs.filter(org => {
+        // check if the search term is included in the org name, email, members, or id
+        return org.name.toLowerCase().includes(searchTerm.toLowerCase()) || org.email.toLowerCase().includes(searchTerm.toLowerCase()) || org.members.toLowerCase().includes(searchTerm.toLowerCase()) || org.id.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+
     const getOrgs = async (e) => {
         e.preventDefault();
 
@@ -44,6 +51,10 @@ const OrgAdminDashboard = () => {
         }
     }
 
+    useEffect(() => {
+        getOrgs();
+    }, []);
+
     return (
         <div className='container-fluid org-admin-dashboard col-12 m-0 mx-4 p-0'>
             <section className="title-section my-5 pt-5">
@@ -61,7 +72,14 @@ const OrgAdminDashboard = () => {
                     </div>
                     <div className='col-12 col-md-6 d-flex flex-row'>
                         <div className="search-bar col-10 col-lg-6 mx-2">
-                            <input type="text" name="search" id="search" className="form-control form-input" placeholder='Type here...' />
+                            <input 
+                                type="text" 
+                                name="search" 
+                                id="search" 
+                                className="form-control form-input" 
+                                placeholder='Type here...'
+                                onChange={e => setSearchTerm(e.target.value)}
+                            />
                         </div>
                     </div>
                 </div>
@@ -78,7 +96,7 @@ const OrgAdminDashboard = () => {
                             </thead>
                             <tbody className='my-2'>
                                 {
-                                    orgs.map(org => {
+                                    filteredOrgs.map(org => {
                                         return (
                                             <tr key={org.id}>
                                                 <td>{org.name}</td>

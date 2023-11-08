@@ -1,25 +1,175 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100&family=Quicksand&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root{
     --neon-btn-one: #ffcc33;
+    --neon-btn-two: #150223;
+    --background-body: #fff;
 }
 
-*{
+/************ Default Css ************/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     outline: none !important;
     border: none;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 75px;
+}
+
 body{
-    font-family: 'Quicksand', sans-serif !important;
+    font-family: 'Space Mono', monospace !important;
     scrollbar-width: none;
     -ms-overflow-style: none;
     overflow-x: hidden;
+    background-color: var(--background-body) !important;
 }
 
 body::-webkit-scrollbar{
     display: none;
 }
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+}
+
+p, a, li, button, ul {
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+button {
+    border: 0;
+    background-color: transparent;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+/************ neon buttons ************/
+
+.neon-button{
+    border: 2px var(--neon-btn-two) solid;
+    box-shadow: inset 0 0 0.5em 0 var(--neon-btn-two), 0 0 0.5em 0 var(--neon-btn-two);
+    position: relative;
+    z-index: 2;
+}
+
+.neon-button::before,
+.neon-button:hover::before{
+    content: "";
+    position: absolute;
+    background: var(--neon-btn-two);
+    top: 110%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: perspective(2.5em) rotateX(40deg) scale(1, 0.35);
+    filter: blur(2em);
+}
+
+/************** Background CSS **************/
+.bg-black{
+    background-color: #151515 !important;
+}
+.bg-gradient-purple{
+    background-image: linear-gradient(to right top, #8a69a2, #966db8, #a271cf, #ad76e6, #b87afe);
+}
+
+/************** Banner CSS **************/
+.banner{
+    height: 100vh;    
+}
+.banner .tagline{
+    letter-spacing: 0.8px;
+    background: linear-gradient(90.21deg, rgba(170, 54, 124, 0.5) -5.91%, rgba(74, 47, 189, 0.5) 111.58%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.banner img {
+    animation: updown 3s linear infinite;
+}
+@keyframes updown {
+    0% {
+        transform: translateY(-20px);
+    }
+    50% {
+        transform: translateY(20px);
+    }
+    100% {
+        transform: translateY(-20px);
+    }
+}
+.txt-rotate > .wrap {
+    border-right: 0.08em solid #666;
+}
+
+.home .row{
+    height: 100%;
+}
+
+/************** Sections CSS **************/
+.description,
+.description-challenges,
+.description-benefits,
+.description-features{
+    height: fit-content;
+}
+
+.description-box,
+.description-challenges-box,
+.description-benefits-box,
+.description-features-box{
+    background: #151515;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: -60px;
+}
+
+.description-challenges-box{
+    background: #e4d5fb;
+    margin-top: 25px;
+}
+
+.description-benefits-box{
+    background: #d5a0c5;
+    color: #121212;
+    margin-top: 5rem;
+}
+
+.description-features-box{
+    background: #fff;
+    margin-top: 10rem;
+}
+
+.background-img-left,
+.abstract-bg-5{
+    top: 28%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -4;
+}
+
 
 .register.container-fluid,
 .login.container-fluid,
@@ -28,20 +178,19 @@ body::-webkit-scrollbar{
 }
 .img-container{
     height: 100%;
-    justify-items: center;
-    display: flex;
 }
 
 
 .register .card,
 .login .card,
 .success .card{
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 75vh;
+    top: 40%;
+    transform: translateY(-40%);
+    align-items: center;
+    height: fit-content;
     opacity: 0.97;
 }
+
 
 .success .card{
     height: 50vh;
@@ -83,29 +232,6 @@ body::-webkit-scrollbar{
     letter-spacing: 0.1rem;
 }
 
-.hero-section{
-    height: 100vh;
-}
-.hero-title{
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.whatiscpd-section{
-    height: 100vh;
-}
-/* .whatiscpd-section::before{
-    content: "";
-    background-image: url("/client/src/assets/images/light_bgs/1.jpeg");
-    background-size: cover;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    opacity: 0.75;
-} */
-
 .logo{
     height: 80px;
     width: 180px;
@@ -114,13 +240,6 @@ body::-webkit-scrollbar{
 @media only screen and (max-width: 768px){
     .card-title{
         letter-spacing: 0.3rem;
-    }
-    .hero-title{
-        letter-spacing: 0.3rem;
-    }
-
-    .title-section{
-        display: none;
     }
 
     .login .card{

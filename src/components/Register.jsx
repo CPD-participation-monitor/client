@@ -149,19 +149,19 @@ const Register = () => {
             {success ? (
                 <SuccessNotification />
             ) : (
-                <div className='register container-fluid col-12 px-0' style={{backgroundImage: `url(${images.bg_jungle_landscape})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
-                    <div className="card bg-light mx-auto border-0 rounded-5 shadow col-8 d-flex flex-row position-absolute">
+                <div className='register container-fluid col-12 m-0 p-0 position-relative' style={{backgroundImage: `url(${images.bg_jungle_landscape})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
+                    <div className="card bg-light m-0 mx-auto p-3 border-0 rounded-5 shadow col-10 col-md-8 col-lg-6 d-flex flex-row">
                         <div className="title-section col-5">
-                            <div className="img-container">
+                            <div className="img-container d-flex justify-items-center">
                                 <img className='img-fluid p-5' src={images.signup} alt="register" />
                             </div>
                         </div>
-                        <div className="form-section col-md-7 col-10 mx-auto text-center">
+                        <div className="form-section col-10 col-md-7 mx-auto text-center">
                             <div className="card-title">
-                                <h1 className='text-uppercase p-5 px-2'>Register</h1>
+                                <h1 className='text-uppercase p-3 px-2'>Register</h1>
                             </div>
                             <p className={`mx-auto ${errMsg ? "errmsg" : "offscreen"}`}>{errMsg}</p>
-                            <div className="card-body px-md-5 px-1">
+                            <div className="card-body px-3">
                                 <form className='form needs-validation' onSubmit={handleSubmit} noValidate>
                                     <div className="row g-2">
                                         <div className="col-lg">

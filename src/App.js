@@ -17,7 +17,7 @@ function App() {
 					<Route path='register' element={<Register />}></Route>
 					<Route path='login' element={<Login />}></Route>
 					<Route path='about' element={<AboutUs />}></Route>
-					<Route path='findcpd' element={<CPDDashboard />}></Route>
+					<Route path='cpddash/:type' element={<CPDDashboard />}></Route>
 					<Route path='orgdash' element={<OrgDashboard />}></Route>
 					{/* <Route path='unauthorized' element={<Unauthorized />}></Route> */}
 

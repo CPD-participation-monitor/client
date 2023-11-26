@@ -24,10 +24,11 @@ const NavBar = () => {
     }, [currentUser]);
 
     return (
-        <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-black p-0 m-0">
+        <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-black-2 p-0 m-0 py-2">
             <div className="container-fluid">
                 <HashLink className="navbar-brand" to="/">
-                    <img className='logo img-fluid' src={images.logo_2} alt="logo" />
+                    {/* <img className='logo img-fluid' src={images.logo_2} alt="logo" /> */}
+                    CPD MONITOR
                 </HashLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -43,10 +44,10 @@ const NavBar = () => {
                             </a>
                             <ul className="dropdown-menu" aria-labelledby='find-cpd'>
                                 <li>
-                                    <HashLink className="dropdown-item nav-link px-5 text-light" to="/findCpdProviders">Providers</HashLink>
+                                    <HashLink className="dropdown-item nav-link px-5 text-dark" to="/cpddash/provider">Providers</HashLink>
                                 </li>
                                 <li>
-                                    <HashLink className="dropdown-item nav-link px-5 text-light" to="/findCpdEvents">Events</HashLink>
+                                    <HashLink className="dropdown-item nav-link px-5 text-dark" to="/cpddash/event">Events</HashLink>
                                 </li>
                             </ul>
                         </li>

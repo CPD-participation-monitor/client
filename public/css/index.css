@@ -6,6 +6,7 @@
     --neon-btn-one: #ffcc33;
     --neon-btn-two: #150223;
     --background-body: #fff;
+    --navbar-gradient: linear-gradient(to right, #845ec2, #7862c7, #6b66ca, #5c6ace, #4b6ed0, #3874d0, #2279cf, #007ecc, #0085c4, #0089b8, #008ca9, #008e9b);
 }
 
 /************ Default Css ************/
@@ -91,11 +92,35 @@ input:focus, textarea:focus, select:focus {
 .bg-black{
     background-color: #151515 !important;
 }
+.bg-black-2{
+    background-color: #333333 !important;
+}
+
+/************** Gradients ******************/
 .bg-gradient-purple{
     background-image: linear-gradient(to right top, #8a69a2, #966db8, #a271cf, #ad76e6, #b87afe);
 }
 
-/************** Banner CSS **************/
+.gradient-1{
+    background-image: var(--navbar-gradient);
+}
+.gradient-2{
+    background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+}
+.gradient-3{
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+}
+.gradient-4{
+    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+}
+.gradient-5{
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+.gradient-6{
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
+/************** Banner CSS *****************/
 .banner{
     height: 100vh;    
 }
@@ -184,11 +209,7 @@ input:focus, textarea:focus, select:focus {
 .register .card,
 .login .card,
 .success .card{
-    top: 40%;
-    transform: translateY(-40%);
-    align-items: center;
-    height: fit-content;
-    opacity: 0.97;
+    transform: translateY(-10%);
 }
 
 

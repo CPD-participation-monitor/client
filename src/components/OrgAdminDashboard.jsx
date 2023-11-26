@@ -4,10 +4,15 @@ import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
 import ROLES from '../constants/roles.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const gradient_classes = ['gradient-1', 'gradient-2', 'gradient-3', 'gradient-4', 'gradient-5', 'gradient-6'];
 
 const GET_ORGS_URL = '/api-org/getOrgs';
 const GET_REQUESTS_URL = '/api-org/getRequests';
 const JOIN_REQUEST_URL = '/api-org/joinOrg';
+const REQUEST_APPROVE_URL = '/api-org/approveRequest';
 
 const OrgAdminDashboard = () => {
     const { currentUser, dispatch } = useAuth();
@@ -29,11 +34,12 @@ const OrgAdminDashboard = () => {
     // requests = [{id: '', admin: {name: '', id: '', email: '', nic: ''}}]
     const [requests, setRequests] = useState([]);
 
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchOrgTerm, setSearchOrgTerm] = useState('');
+    const [searchReqTerm, setSearchReqTerm] = useState('');
 
     const filteredOrgs = orgs.filter(org => {
         // check if the search term is included in the org name, email, members, or id
-        return org.name.toLowerCase().includes(searchTerm.toLowerCase()) || org.email.includes(searchTerm.toLowerCase()) || org.members == searchTerm || org.id.includes(searchTerm.toString().toLowerCase());
+        return org.name.toLowerCase().includes(searchOrgTerm.toLowerCase()) || org.email.includes(searchOrgTerm.toLowerCase()) || org.members == searchOrgTerm || org.id.includes(searchOrgTerm.toString().toLowerCase());
     });
 
     const getOrgs = async () => {
@@ -74,27 +80,61 @@ const OrgAdminDashboard = () => {
     }
 
     const filteredRequests = requests.filter(req => {
-        return req.admin.name.toLowerCase().includes(searchTerm.toLowerCase()) || req.admin.email.includes(searchTerm.toLowerCase()) || req.admin.nic.includes(searchTerm.toLowerCase()) || req.admin.id === searchTerm.toString().toLowerCase();
+        return req.admin.name.toLowerCase().includes(searchReqTerm.toLowerCase()) || req.admin.email.includes(searchReqTerm.toLowerCase()) || req.admin.nic.includes(searchReqTerm) || req.admin.id === searchReqTerm.toString().toLowerCase();
     });
 
     const getRequests = async () => {
             
         try{
-            const response = await axios.post(GET_REQUESTS_URL,
+            // const response = await axios.post(GET_REQUESTS_URL,
+            //     {
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         withCredentials: true,
+            //         payload: {
+            //             adminEmail: currentUser?.user?.email
+            //         }
+            //     }
+            // );
+            // const successRes = response?.data?.success;
+            // const reason = response?.data?.reason;
+            // const requests = response?.data?.requests;
+
+            // dummy data for testing
+            const successRes = true;
+            const reason = null;
+            const requests = [
                 {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    withCredentials: true,
-                    payload: {
-                        adminEmail: currentUser?.user?.email
+                    id: '1',
+                    admin: {
+                        name: 'John Doe',
+                        id: '1',
+                        email: 'johndoe@email.com',
+                        nic: '123456789V'
+                    }
+                },
+                {
+                    id: '2',
+                    admin: {
+                        name: 'Jane Doe',
+                        id: '2',
+                        email: 'janedoe@email.com',
+                        nic: '123456789V'
+                    }
+                },
+                {
+                    id: '3',
+                    admin: {
+                        name: 'John Smith',
+                        id: '3',
+                        email: 'johnsmith@email.com',
+                        nic: '123456789V'
                     }
                 }
-            );
-            const successRes = response?.data?.success;
-            const reason = response?.data?.reason;
-            const requests = response?.data?.requests;
+            ];
 
+            // check if requests is empty
             if (requests.length == 0){
                 setErrMsgReq('No pending requests');
             }
@@ -107,7 +147,7 @@ const OrgAdminDashboard = () => {
                 console.log('Unauthorized or Token is expired');
                 setErrMsgReq('Unauthorized');
                 setSuccessReq(false);
-                // dispatch({ type: "LOGOUT" });
+                dispatch({ type: "LOGOUT" });
             }
             else{
                 setErrMsgReq('Something went wrong');
@@ -132,7 +172,6 @@ const OrgAdminDashboard = () => {
         const orgID = currentUser?.user?.orgID;
         if (orgID){
             const currentUserOrg = orgs.find(org => org.id === orgID.toString());
-            console.log(currentUserOrg);
             setCurrentOrg(currentUserOrg);
         }
     }, [orgs]);
@@ -182,10 +221,77 @@ const OrgAdminDashboard = () => {
         }
     };
 
+    const handleRequest = async (e) => {
+        console.log('Approve request');
+        const requestID = e.target.value.requestId;
+        const approve = e.target.value.approve;
+        try{
+            const response = await axios.post(REQUEST_APPROVE_URL,
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true,
+                    payload: { requestID, approve }
+                },
+            );
+            const successRes = response?.data?.success;
+            const reason = response?.data?.reason;
+            
+            if (!successRes){
+                console.log('Something went wrong');
+                throw new Error(reason);
+            }
+
+            // if the request is approved, get the orgs again
+            if (approve && successRes){
+                getOrgs();
+            }
+
+        } catch (err){
+            if (err?.response?.status === 401){
+                toast.error('Unauthorized or Token is expired', 
+                    { 
+                        position: "top-right", 
+                        autoClose: 5000, 
+                        hideProgressBar: false, 
+                        closeOnClick: true, 
+                        pauseOnHover: true, 
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light"
+                    }
+                );
+                // dispatch({ type: "LOGOUT" });
+            }
+            else{
+                toast.error('Something went wrong', 
+                    { 
+                        position: "top-right", 
+                        autoClose: 5000, 
+                        hideProgressBar: false, 
+                        closeOnClick: true, 
+                        pauseOnHover: true, 
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light"
+                    }
+                );
+            }
+        }
+    };
+
     return (
-        <div className='container-fluid org-admin-dashboard col-10 m-0 mx-auto p-0'>
+        <div className='container-fluid org-admin-dashboard col-10 m-0 mx-auto p-0 position-relative'>
+            <ToastContainer />
             <section className="admin-dashboard-title my-5">
-                <h1 className='display-6'>{currentOrg?.name ? currentOrg?.name + " - Admin Dashboard" : "Admin Dashboard"}</h1>
+                <h1 className='display-6 my-3'>{currentOrg?.name ? currentOrg?.name + " - Admin Dashboard" : "Admin Dashboard"}</h1>
+                <div className={`card border-0 rounded shadow p-3 my-3 ${gradient_classes[Math.floor(Math.random() * 5) + 1]}`}>
+                    <div className="card-body">
+                        <h2 className='light fw-bold'>{currentUser?.user?.name}</h2>
+                        <p className='light'>{currentUser?.user?.email} | {Object.keys(ROLES).find(key => ROLES[key] === currentUser?.user?.role)}</p>
+                    </div>
+                </div>
             </section>
 
             <section className='content'>
@@ -210,7 +316,7 @@ const OrgAdminDashboard = () => {
                             id="search" 
                             className="form-control form-input" 
                             placeholder='Search organizations...'
-                            onChange={e => setSearchTerm(e.target.value)}
+                            onChange={e => setSearchOrgTerm(e.target.value)}
                         />
                     </div>
                     <div className="col-10 mx-auto text-center table-responsive">
@@ -253,19 +359,19 @@ const OrgAdminDashboard = () => {
                 </section>
 
                 <section className="content">
-                    <div className="row mt-5">
-                        <div className="search-bar col-10 col-lg-6 mx-auto">
+                    <div className="row my-3">
+                        <div className="search-bar col-10 col-lg-6 mx-auto my-3">
                             <input 
                                 type="text" 
                                 name="search" 
                                 id="search" 
                                 className="form-control form-input" 
                                 placeholder='Search requests...'
-                                onChange={e => setSearchTerm(e.target.value)}
+                                onChange={e => setSearchReqTerm(e.target.value)}
                             />
                         </div>
-                        <div className="col-10 mx-auto text-center my-5 table-responsive">
-                            {!errMsgReq ? <table className='col-12 my-5 table table-striped table-hover align-middle'>
+                        <div className="col-10 mx-auto text-center table-responsive">
+                            {!errMsgReq ? <table className='col-12 mb-5 table table-striped table-hover align-middle'>
                                 <thead className='my-2'>
                                     <tr>
                                         <th scope="col">Request ID</th>
@@ -287,8 +393,8 @@ const OrgAdminDashboard = () => {
                                                     <td>{req.admin.email}</td>
                                                     <td>{req.admin.nic}</td>
                                                     <td>
-                                                        <button className="btn btn-outline-success mx-2">Approve</button>
-                                                        <button className="btn btn-outline-danger mx-2">Decline</button>
+                                                        <button className="btn btn-outline-success mx-2" value={{requestId: req.id, approve: true}} onClick={(e) => handleRequest(e)}>Approve</button>
+                                                        <button className="btn btn-outline-danger mx-2" value={{requestId: req.id, approve: false}} onClick={(e) => handleRequest(e)}>Decline</button>
                                                     </td>
                                                 </tr>
                                             );
@@ -300,7 +406,6 @@ const OrgAdminDashboard = () => {
                     </div>
                 </section>
             </> : null}
-            
         </div>
     );
 }

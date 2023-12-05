@@ -38,18 +38,8 @@ const NavBar = () => {
                         <li className="nav-item">
                             <HashLink className="nav-link px-5 text-light" aria-current="page" to="/">What is CPD?</HashLink>
                         </li>
-                        <li className="nav-item nav-link dropdown">
-                            <a href="#" id='find-cpd' data-bs-toggle='dropdown' aria-expanded='false' className="dropdown-toggle text-decoration-none text-light px-5">
-                                Find CPD
-                            </a>
-                            <ul className="dropdown-menu" aria-labelledby='find-cpd'>
-                                <li>
-                                    <HashLink className="dropdown-item nav-link px-5 text-dark" to="/cpddash/provider">Providers</HashLink>
-                                </li>
-                                <li>
-                                    <HashLink className="dropdown-item nav-link px-5 text-dark" to="/cpddash/event">Events</HashLink>
-                                </li>
-                            </ul>
+                        <li className="nav-item">
+                            <HashLink className="nav-link px-5 text-light" to="/cpddash">Find CPD</HashLink>
                         </li>
                         <li className="nav-item">
                             <HashLink className="nav-link px-5 text-light" to="/about">About Us</HashLink>

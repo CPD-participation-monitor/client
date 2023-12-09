@@ -215,7 +215,9 @@ input:focus, textarea:focus, select:focus {
 
 .success .card{
     height: 50vh;
-    opacity: 0.9;
+}
+.success .card-title{
+    font-size: 2.5rem;
 }
 
 .check-mark{

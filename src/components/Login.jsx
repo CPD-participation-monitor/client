@@ -16,7 +16,9 @@ const Login = () => {
 
     useEffect(() => {
         if (currentUser?.user){
-            if (currentUser?.user?.role === ROLES.orgAdmin || currentUser?.user?.role === ROLES.orgSuperAdmin){
+            if (currentUser?.user?.role === ROLES.orgSuperAdmin){
+                navigate('/superadmindash', { replace: true });
+            }else if (currentUser?.user?.role === ROLES.orgAdmin || currentUser?.user?.role === ROLES.orgSuperAdmin){
                 navigate('/orgadmindash', { replace: true });
             }else if (currentUser?.user?.role === ROLES.eng){
                 navigate('/engdash', { replace: true });
@@ -57,7 +59,7 @@ const Login = () => {
             const success = response?.data?.success;
             const reason = response?.data?.reason;
             const user = response?.data?.user;
-            // console.log(response?.data);
+            console.log(response?.data?.user);
 
             if (!success) {
                 console.log(reason);
@@ -97,7 +99,7 @@ const Login = () => {
     }
 
     return (
-        <div className='login container-fluid col-12 row m-0 p-0 position-relative' style={{backgroundImage: `url(${images.abstract_bg_4})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
+        <div className='login container-fluid col-12 row m-0 p-0 position-relative' style={{backgroundImage: `url(${images.abstract_bg_6})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
             <div className="row m-0 p-0">
                 <div className="col-12 col-sm-10 m-0 p-0 mx-auto d-flex align-items-center">
                     <div className="card bg-light m-0 mx-auto p-5 px-sm-3 border-0 rounded-5 shadow col-10 col-md-8 col-lg-6 d-flex flex-row">

@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import OrgModal from './OrgModal.jsx';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
+import useSharedState from '../hooks/useSharedState.js';
 import { useNavigate } from 'react-router';
 import ROLES from '../constants/roles.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import Box from '@mui/material/Box';
+import { DataGrid, GridValueGetterParams, GridToolbar } from '@mui/x-data-grid';
 
 const gradient_classes = ['gradient-1', 'gradient-2', 'gradient-3', 'gradient-4', 'gradient-5', 'gradient-6'];
 
@@ -16,6 +20,7 @@ const REQUEST_APPROVE_URL = '/api-org/approveRequest';
 
 const OrgAdminDashboard = () => {
     const { currentUser, dispatch } = useAuth();
+    const { currentOrg, setState } = useSharedState();
     const navigate = useNavigate();
 
     const [errMsgOrg, setErrMsgOrg] = useState('');
@@ -27,20 +32,11 @@ const OrgAdminDashboard = () => {
     const [errMsgJoin, setErrMsgJoin] = useState('');
     const [successJoin, setSuccessJoin] = useState(false);
 
-    const [currentOrg, setCurrentOrg] = useState({});
+    const [currentUserOrg, setCurrentUserOrg] = useState({});
     const [requestedOrgId, setRequestedOrgId] = useState('');
 
     const [orgs, setOrgs] = useState([]);
-    // requests = [{id: '', admin: {name: '', id: '', email: '', nic: ''}}]
     const [requests, setRequests] = useState([]);
-
-    const [searchOrgTerm, setSearchOrgTerm] = useState('');
-    const [searchReqTerm, setSearchReqTerm] = useState('');
-
-    const filteredOrgs = orgs.filter(org => {
-        // check if the search term is included in the org name, email, members, or id
-        return org.name.toLowerCase().includes(searchOrgTerm.toLowerCase()) || org.email.includes(searchOrgTerm.toLowerCase()) || org.members == searchOrgTerm || org.id.includes(searchOrgTerm.toString().toLowerCase());
-    });
 
     const getOrgs = async () => {
 
@@ -67,7 +63,6 @@ const OrgAdminDashboard = () => {
 
         } catch (err){
             if (err?.response?.status === 401){
-                console.log('Unauthorized or Token is expired');
                 setErrMsgOrg('Unauthorized');
                 setSuccessOrg(false);
                 dispatch({ type: "LOGOUT" });
@@ -78,10 +73,6 @@ const OrgAdminDashboard = () => {
             }
         }
     }
-
-    const filteredRequests = requests.filter(req => {
-        return req.admin.name.toLowerCase().includes(searchReqTerm.toLowerCase()) || req.admin.email.includes(searchReqTerm.toLowerCase()) || req.admin.nic.includes(searchReqTerm) || req.admin.id === searchReqTerm.toString().toLowerCase();
-    });
 
     const getRequests = async () => {
             
@@ -107,30 +98,123 @@ const OrgAdminDashboard = () => {
             const requests = [
                 {
                     id: '1',
-                    admin: {
-                        name: 'John Doe',
-                        id: '1',
-                        email: 'johndoe@email.com',
-                        nic: '123456789V'
-                    }
+                    name: 'John Doe',
+                    email: 'johndoe@email.com',
+                    nic: '123456789V'
                 },
                 {
                     id: '2',
-                    admin: {
-                        name: 'Jane Doe',
-                        id: '2',
-                        email: 'janedoe@email.com',
-                        nic: '123456789V'
-                    }
+                    name: 'Jane Smith',
+                    email: 'janesmith@email.com',
+                    nic: '987654321M'
                 },
                 {
                     id: '3',
-                    admin: {
-                        name: 'John Smith',
-                        id: '3',
-                        email: 'johnsmith@email.com',
-                        nic: '123456789V'
-                    }
+                    name: 'Bob Johnson',
+                    email: 'bobjohnson@email.com',
+                    nic: '456789123A'
+                },
+                {
+                    id: '4',
+                    name: 'Alice Brown',
+                    email: 'alicebrown@email.com',
+                    nic: '567890123B'
+                },
+                {
+                    id: '5',
+                    name: 'Charlie Davis',
+                    email: 'charliedavis@email.com',
+                    nic: '678901234C'
+                },
+                {
+                    id: '6',
+                    name: 'Eva White',
+                    email: 'evawhite@email.com',
+                    nic: '1122334455E'
+                },
+                {
+                    id: '7',
+                    name: 'Michael Black',
+                    email: 'michaelblack@email.com',
+                    nic: '9988776655M'
+                },
+                {
+                    id: '8',
+                    name: 'Olivia Green',
+                    email: 'oliviagreen@email.com',
+                    nic: '1122334455O'
+                },
+                {
+                    id: '9',
+                    name: 'David Gray',
+                    email: 'davidgray@email.com',
+                    nic: '9988776655D'
+                },
+                {
+                    id: '10',
+                    name: 'Sophia Red',
+                    email: 'sophiared@email.com',
+                    nic: '1122334455S'
+                },
+                {
+                    id: '11',
+                    name: 'Liam Yellow',
+                    email: 'liamyellow@email.com',
+                    nic: '9988776655L'
+                },
+                {
+                    id: '12',
+                    name: 'Ava Orange',
+                    email: 'avaorange@email.com',
+                    nic: '1122334455A'
+                },
+                {
+                    id: '13',
+                    name: 'Mason Pink',
+                    email: 'masonpink@email.com',
+                    nic: '9988776655P'
+                },
+                {
+                    id: '14',
+                    name: 'Emma Purple',
+                    email: 'emmapurple@email.com',
+                    nic: '1122334455Em'
+                },
+                {
+                    id: '15',
+                    name: 'Noah Brown',
+                    email: 'noahbrown@email.com',
+                    nic: '9988776655N'
+                },
+                {
+                    id: '16',
+                    name: 'Isabella Gray',
+                    email: 'isabellagray@email.com',
+                    nic: '1122334455I'
+                },
+                {
+                    id: '17',
+                    name: 'William White',
+                    email: 'williamwhite@email.com',
+                    nic: '9988776655W'
+                },
+                {
+                    id: '18',
+                    name: 'Sofia Black',
+                    email: 'sofiablack@email.com',
+                    nic: '1122334455So'
+                },
+                {
+                    id: '19',
+                    name: 'James Gold',
+                    email: 'jamesgold@email.com',
+                    nic: '9988776655J'
+                },
+                {
+                    id: '20',
+                    name: 'Emily Silver',
+                    email: 'emilysilver@email.com',
+                    nic: '1122334455E'
                 }
             ];
 
@@ -171,8 +255,8 @@ const OrgAdminDashboard = () => {
     useEffect(() => {
         const orgID = currentUser?.user?.orgID;
         if (orgID){
-            const currentUserOrg = orgs.find(org => org.id === orgID.toString());
-            setCurrentOrg(currentUserOrg);
+            const currUserOrg = orgs.find(org => org.id === orgID.toString());
+            setCurrentUserOrg(currUserOrg);
         }
     }, [orgs]);
 
@@ -221,71 +305,11 @@ const OrgAdminDashboard = () => {
         }
     };
 
-    const handleRequest = async (e) => {
-        console.log('Approve request');
-        const requestID = e.target.value.requestId;
-        const approve = e.target.value.approve;
-        try{
-            const response = await axios.post(REQUEST_APPROVE_URL,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    withCredentials: true,
-                    payload: { requestID, approve }
-                },
-            );
-            const successRes = response?.data?.success;
-            const reason = response?.data?.reason;
-            
-            if (!successRes){
-                console.log('Something went wrong');
-                throw new Error(reason);
-            }
-
-            // if the request is approved, get the orgs again
-            if (approve && successRes){
-                getOrgs();
-            }
-
-        } catch (err){
-            if (err?.response?.status === 401){
-                toast.error('Unauthorized or Token is expired', 
-                    { 
-                        position: "top-right", 
-                        autoClose: 5000, 
-                        hideProgressBar: false, 
-                        closeOnClick: true, 
-                        pauseOnHover: true, 
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light"
-                    }
-                );
-                // dispatch({ type: "LOGOUT" });
-            }
-            else{
-                toast.error('Something went wrong', 
-                    { 
-                        position: "top-right", 
-                        autoClose: 5000, 
-                        hideProgressBar: false, 
-                        closeOnClick: true, 
-                        pauseOnHover: true, 
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light"
-                    }
-                );
-            }
-        }
-    };
-
     return (
         <div className='container-fluid org-admin-dashboard col-10 m-0 mx-auto p-0 position-relative'>
             <ToastContainer />
             <section className="admin-dashboard-title my-5">
-                <h1 className='display-6 my-3'>{currentOrg?.name ? currentOrg?.name + " - Admin Dashboard" : "Admin Dashboard"}</h1>
+                <h1 className='display-6 my-3'>{currentUserOrg?.name ? currentUserOrg?.name + " - Admin Dashboard" : "Admin Dashboard"}</h1>
                 <div className={`card border-0 rounded shadow p-3 my-3 ${gradient_classes[Math.floor(Math.random() * 5) + 1]}`}>
                     <div className="card-body">
                         <h2 className='light fw-bold'>{currentUser?.user?.name}</h2>
@@ -304,51 +328,48 @@ const OrgAdminDashboard = () => {
                         <OrgModal creator={currentUser?.user} />
                     </div> : 
                     <div className='col-10 col-md-3'>
-                        <button className="create-org btn btn-outline-dark col-10 mx-auto" onClick={(e) => navigate(`/orgadmindash/orgdash/${currentOrg?.orgID}`)} >View Organization</button>
+                        <button className="create-org btn btn-outline-dark col-10 mx-auto" onClick={(e) => navigate(`orgdash/${currentUserOrg?.id}`)} >View Organization</button>
                     </div>}
                 </div>
 
                 <div className="row my-3">
-                    <div className="search-bar col-10 col-lg-6 mx-auto my-3">
-                        <input 
-                            type="text" 
-                            name="search" 
-                            id="search" 
-                            className="form-control form-input" 
-                            placeholder='Search organizations...'
-                            onChange={e => setSearchOrgTerm(e.target.value)}
-                        />
-                    </div>
                     <div className="col-10 mx-auto text-center table-responsive">
-                        {!errMsgOrg ? <table className='col-12 mt-3 mb-5 table table-striped table-hover align-middle'>
-                            <thead className='my-2'>
-                                <tr>
-                                    <th scope="col">Organization Name</th>
-                                    <th scope="col">Organization ID</th>
-                                    <th scope="col">Organization Email</th>
-                                    <th scope="col">Members</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className='my-2'>
-                                {
-                                    filteredOrgs.map(org => {
-                                        return (
-                                            <tr key={org.id}>
-                                                <td>{org.name}</td>
-                                                <td>{org.id}</td>
-                                                <td>{org.email}</td>
-                                                <td>{org.members}</td>
-                                                <td>
-                                                    <button className="btn btn-outline-dark mx-2" onClick={(e) => navigate(`/orgadmindash/orgdash/${org.id}`)}>View</button>
-                                                    {currentUser?.user?.role !== ROLES.orgSuperAdmin && !successJoin ? <button className="btn btn-outline-dark mx-2" value={org.id} onClick={(e) => handleJoin(e)}>Join</button> : (requestedOrgId === org.id) ? <small className='text-muted fst-italic'>Request sent</small> :null}
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                }
-                            </tbody>
-                        </table> : <span className='text-center my-5 text-danger'>{errMsgOrg}</span>}
+                        {!errMsgOrg ? 
+                            <Box sx={{ maxHeight: 400, width: '100%', overflowX: 'auto' }}>
+                                <DataGrid
+                                    rows={orgs}
+                                    columns={[
+                                        { field: 'id', headerName: 'Org ID', flex: 0.5, minWidth: 70 },
+                                        { field: 'name', headerName: 'Org Name', flex: 1, minWidth: 140 },
+                                        { field: 'email', headerName: 'Org Email', flex: 1, minWidth: 140 },
+                                        { field: 'members', headerName: 'Members', flex: 0.5, minWidth: 70 },
+                                        { field: 'actions', headerName: 'Actions', flex: 1, minWidth: 140, renderCell: (params) => {
+                                            return (
+                                                <>
+                                                    <button className="btn btn-outline-dark mx-2" value={params.row.id} onClick={(e) => navigate(`/orgadmindash/orgdash/${params.row.id}`)}>View</button>
+                                                    {currentUser?.user?.role !== ROLES.orgSuperAdmin && !successJoin ? <button className="btn btn-outline-dark mx-2" value={params.row.id} onClick={(e) => handleJoin(e)}>Join</button> : (requestedOrgId === params.row.id) ? <small className='text-muted fst-italic'>Request sent</small> :null}
+                                                </>
+                                            );
+                                        }
+                                         },
+                                    ]}
+                                    slots={{ toolbar: GridToolbar }}
+                                    slotProps={{
+                                        toolbar: {
+                                          showQuickFilter: true,
+                                        },
+                                    }}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: { page: 0, pageSize: 5 },
+                                        },
+                                        sorting: {
+                                            sortModel: [{ field: 'actions', sortable: false }],
+                                        }
+                                    }}
+                                    pageSizeOptions={[5, 10, 15, 20]}
+                                />
+                        </Box> : <span className='text-center my-5 text-danger'>{errMsgOrg}</span>}
                     </div>
                 </div>
             </section>
@@ -360,48 +381,43 @@ const OrgAdminDashboard = () => {
 
                 <section className="content">
                     <div className="row my-3">
-                        <div className="search-bar col-10 col-lg-6 mx-auto my-3">
-                            <input 
-                                type="text" 
-                                name="search" 
-                                id="search" 
-                                className="form-control form-input" 
-                                placeholder='Search requests...'
-                                onChange={e => setSearchReqTerm(e.target.value)}
-                            />
-                        </div>
-                        <div className="col-10 mx-auto text-center table-responsive">
-                            {!errMsgReq ? <table className='col-12 mb-5 table table-striped table-hover align-middle'>
-                                <thead className='my-2'>
-                                    <tr>
-                                        <th scope="col">Request ID</th>
-                                        <th scope="col">Admin Name</th>
-                                        <th scope="col">Admin ID</th>
-                                        <th scope="col">Admin Email</th>
-                                        <th scope="col">Admin NIC</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className='my-2'>
-                                    {
-                                        filteredRequests.map(req => {
-                                            return (
-                                                <tr key={req.id}>
-                                                    <td>{req.id}</td>
-                                                    <td>{req.admin.name}</td>
-                                                    <td>{req.admin.id}</td>
-                                                    <td>{req.admin.email}</td>
-                                                    <td>{req.admin.nic}</td>
-                                                    <td>
-                                                        <button className="btn btn-outline-success mx-2" value={{requestId: req.id, approve: true}} onClick={(e) => handleRequest(e)}>Approve</button>
-                                                        <button className="btn btn-outline-danger mx-2" value={{requestId: req.id, approve: false}} onClick={(e) => handleRequest(e)}>Decline</button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })
-                                    }
-                                </tbody>
-                            </table> : <span className='text-center my-5 text-danger'>{errMsgReq}</span>}
+                        <div className="col-10 mx-auto my-2 text-center table-responsive">
+                            {!errMsgReq ? 
+                                <Box sx={{ maxHeight: 400, width: '100%' }}>
+                                    <DataGrid
+                                        rows={requests}
+                                        columns={[
+                                            { field: 'id', headerName: 'Req ID', flex: 0.5, minWidth: 70 },
+                                            { field: 'name', headerName: 'Admin Name', flex: 1, minWidth: 140 },
+                                            { field: 'email', headerName: 'Admin Email', flex: 1, minWidth: 140 },
+                                            { field: 'nic', headerName: 'Admin NIC', flex: 1, minWidth: 140 },
+                                            { field: 'actions', headerName: 'Actions', flex: 1.2, minWidth: 168, renderCell: (params) => {
+                                                return (
+                                                    <>
+                                                        <button className="btn btn-outline-success mx-2" value={params.row.id} onClick={(e) => {navigate(`issuecert/${e.target.value}`)}}>Issue Certificate</button>
+                                                    </>
+                                                );
+                                            }
+                                             },
+                                        ]}
+                                        slots={{ toolbar: GridToolbar }}
+                                        slotProps={{
+                                            toolbar: {
+                                              showQuickFilter: true,
+                                            },
+                                        }}
+                                        initialState={{
+                                            pagination: {
+                                                paginationModel: { page: 0, pageSize: 5 },
+                                            },
+                                            sorting: {
+                                                sortModel: [{ field: 'actions', sortable: false }],
+                                            }
+                                        }}
+                                        pageSizeOptions={[5, 10]}
+                                    />
+                              </Box>
+                            : <span className='text-center my-5 text-danger'>{errMsgReq}</span>}
                         </div>
                     </div>
                 </section>

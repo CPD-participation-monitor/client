@@ -9,6 +9,8 @@ export { default as CPDDashboard } from './CPDDashboard';
 export { default as OrgDashboard } from './OrgDashboard';
 export { default as OrgAdminDashboard } from './OrgAdminDashboard';
 export { default as UserDashboard } from './UserDashboard';
+export { default as EventDashboard } from './EventDashboard';
+export { default as IssueCertificate } from './IssueCertificate';
 export { default as NotFound } from './NotFound';
 export { default as Unauthorized } from './Unauthorized';
 

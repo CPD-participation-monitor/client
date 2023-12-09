@@ -55,9 +55,9 @@ const OrgModal = ({ creator }) => {
             const payload = {
                 orgName,
                 email,
-                creatorEmail: creator?.email
+                creatorEmail: creator?.email,
+                orgDescription
             }
-            // console.log(payload);
             const response = await axios.post(CREATE_ORG_URL,
                 JSON.stringify(payload), 
                 {
@@ -69,7 +69,6 @@ const OrgModal = ({ creator }) => {
             );
             const successRes = response?.data?.success;
             const reason = response?.data?.reason;
-            // console.log(role);
 
             if (!success) {
                 console.log(reason);

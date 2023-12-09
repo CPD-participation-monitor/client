@@ -16,6 +16,11 @@ const OrgModal = ({ creator }) => {
     const [validOrgName, setValidOrgName] = useState(false);
     const [orgNameFocus, setOrgNameFocus] = useState(false);
 
+    const [orgDescription, setOrgDescription] = useState('');
+    const [validOrgDescription, setValidOrgDescription] = useState(false);
+    const [orgDescriptionFocus, setOrgDescriptionFocus] = useState(false);
+    const [orgDescriptionCharsCount, setOrgDescriptionCharsCount] = useState(0);
+
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
@@ -29,13 +34,19 @@ const OrgModal = ({ creator }) => {
         setValidEmail(result);
     }, [email]);
 
+    useEffect(() => {
+        const result = orgDescriptionCharsCount <= 500;
+        setValidOrgDescription(result);
+    }, [orgDescription]);
+
     const handleSubmitOrg = async (e) => {
         e.preventDefault();
 
         const v1 = ORG_NAME_REGEX.test(orgName);
         const v2 = EMAIL_REGEX.test(email);
+        const v3 = orgDescriptionCharsCount <= 500;
 
-        if (!v1 || !v2){
+        if (!v1 || !v2 || !v3){
             setErrMsg('Invalid Entry');
             return;
         }
@@ -73,7 +84,7 @@ const OrgModal = ({ creator }) => {
                 setErrMsg('No Server Response');
             }
             else if (err.response?.status === 400){
-                setErrMsg('Missing Entry');
+                setErrMsg('Invalid Entry');
             }
             else if (err.response?.status === 401){
                 setErrMsg('Unauthorized');
@@ -127,12 +138,35 @@ const OrgModal = ({ creator }) => {
                                         placeholder='Organization Name'
                                     />
                                     <label className='form-label' htmlFor="orgName">Organization Name</label>
-                                    <p id="uidnote" className={orgNameFocus && orgName && !validOrgName ? "invalid-feedback text-start" : "offscreen"}>
+                                    <p id="namenote" className={orgNameFocus && orgName && !validOrgName ? "invalid-feedback text-start" : "offscreen"}>
                                         Not a valid organization name
                                     </p>
                                 </div>
 
-                                <button className='col-4 btn btn-outline-dark mt-2 rounded-5 p-2' disabled={!email || !orgName ? true : false}>Submit</button>
+                                <div className="form-floating text-secondary mb-4">
+                                    <textarea 
+                                        type="text"
+                                        className={`form-control border-1 rounded-5 ${!orgDescription ? "" : validOrgDescription ? "is-valid" : "is-invalid"}`}
+                                        id="orgDescription"
+                                        onChange={e => {
+                                            setOrgDescription(e.target.value);
+                                            setOrgDescriptionCharsCount(e.target.value.length);
+                                        }}
+                                        value={orgDescription}
+                                        required
+                                        onFocus={() => setOrgDescriptionFocus(true)}
+                                        onBlur={() => setOrgDescriptionFocus(false)} 
+                                        placeholder='Organization Description'
+                                        style={{height: '100px'}}
+                                    ></textarea>
+                                    <label className='form-label' htmlFor="orgDescription">Description</label>
+                                    <span className={orgDescriptionFocus ? `badge mt-2 ${validOrgDescription ? "bg-success" : "bg-danger"}` : "offscreen"}>{500 - orgDescriptionCharsCount}</span>
+                                    <p id="descnote" className={orgDescriptionFocus && orgDescription && !validOrgDescription ? "invalid-feedback text-start" : "offscreen"}>
+                                        Too many characters
+                                    </p>
+                                </div>
+
+                                <button className='col-4 btn btn-outline-dark mt-2 rounded-5 p-2' disabled={!email || !orgName || !validOrgDescription ? true : false}>Submit</button>
                         </form>
                     </div>
                 </div>

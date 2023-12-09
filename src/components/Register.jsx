@@ -118,7 +118,7 @@ const Register = () => {
                 }
             );
             // console.log(response.accessToken);
-            console.log(JSON.stringify(response?.data));
+            console.log(response?.data);
             const successRes = response?.data?.success;
             const reason = response?.data?.reason;
             setSuccess(successRes);
@@ -135,11 +135,16 @@ const Register = () => {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             }
+            else if (err?.response?.status === 400){
+                setErrMsg(err?.response?.data?.reason);
+                // add validations for different fields
+            }
             else if (err.response?.status === 409){
                 setErrMsg('Email already in use');
                 setValidEmail(false);
             }
             else{
+                console.log(err);
                 setErrMsg('Registration Failed');
             }
         }
@@ -168,7 +173,7 @@ const Register = () => {
             {success ? (
                 <SuccessNotification />
             ) : (
-                <div className='register container-fluid col-12 row m-0 p-0 position-relative' style={{backgroundImage: `url(${images.abstract_bg_5})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
+                <div className='register container-fluid col-12 row m-0 p-0 position-relative' style={{backgroundImage: `url(${images.abstract_bg_3})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}>
                     <div className="row m-0 p-0">
                         <div className="col-12 m-0 p-0 mx-auto d-flex align-items-center">
                             <div className="card bg-light m-0 mx-auto p-3 border-0 rounded-5 shadow col-10 col-md-8 col-lg-6 d-flex flex-row">

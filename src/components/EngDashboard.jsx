@@ -76,6 +76,15 @@ const EngDashboard = () => {
                                     }
                                 }}
                                 pageSizeOptions={[5, 10]}
+                                sx={{
+                                    '& .MuiDataGrid-toolbarContainer': {
+                                      backgroundColor: '#f0f0f0', // Customize the background color
+                                      // customize font color
+                                        '& .MuiButtonBase-root': {
+                                            color: '#000',
+                                        },
+                                    },
+                                }}
                             />
                         </Box>
                     </div>

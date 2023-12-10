@@ -1,4 +1,4 @@
-import { Layout, NavBar, Register, Login, Logout, LandingPage, AboutUs, OrgAdminDashboard, OrgDashboard, UserDashboard, CPDDashboard, NotFound, Unauthorized, EventDashboard, IssueCertificate } from './components';
+import { Layout, NavBar, Register, Login, Logout, LandingPage, AboutUs, OrgAdminDashboard, OrgDashboard, UserDashboard, CPDDashboard, NotFound, Unauthorized, EventDashboard, EngDashboard } from './components';
 import RequireAuth from './javascript/RequireAuth';
 import { Routes, Route } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
@@ -28,7 +28,7 @@ function App() {
 						{/* protected routes */}
 						<Route element={<RequireAuth allowedRoles={[ROLES.eng]} />}>
 							<Route path='engdash' element={<Outlet />}>
-								<Route index element={<UserDashboard />}></Route>
+								<Route index element={<EngDashboard />}></Route>
 								<Route path='orgdash/:orgId' element={<OrgDashboard />}></Route>
 							</Route>
 						</Route>
@@ -37,7 +37,6 @@ function App() {
 								<Route index element={<OrgAdminDashboard />}></Route>
 								<Route path='orgdash/:orgId' element={<OrgDashboard />}></Route>
 								<Route path='eventdash/:eventId' element={<EventDashboard />}></Route>
-								<Route path='issuecert/:reqId' element={<IssueCertificate />}></Route>
 							</Route>
 						</Route>
 						<Route element={<RequireAuth allowedRoles={[ROLES.orgSuperAdmin, ROLES.orgAdmin]} />}>
@@ -45,7 +44,6 @@ function App() {
 								<Route index element={<OrgAdminDashboard />}></Route>
 								<Route path='orgdash/:orgId' element={<OrgDashboard />}></Route>
 								<Route path='eventdash/:eventId' element={<EventDashboard />}></Route>
-								<Route path='issuecert/:reqId' element={<IssueCertificate />}></Route>
 							</Route>
 						</Route>
 

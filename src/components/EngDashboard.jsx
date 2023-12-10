@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // styles
 import Box from '@mui/material/Box';
-import { DataGrid, GridValueGetterParams, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 const EngDashboard = () => {
 
@@ -86,7 +86,9 @@ const EngDashboard = () => {
                 <div className="row my-3">
                     <h1 className="my-3 fs-3">Registered Events</h1>
 
-                    <div className="col-12 col-sm-4 col-md-3 my-3 mt-5">
+                    <h1 className="my-3 fs-4">Completed Events</h1>
+
+                    <div className="col-12 col-sm-4 col-md-3 my-3">
                         {/* disable the button if selectedEventIds is empty */}
                         <button className={`btn btn-outline-dark col-12 ${selectedEventIds.length === 0 ? "disabled" : ""}`} onClick={handleIssueCertificate}>Issue Certificate</button>
                     </div>
@@ -96,9 +98,7 @@ const EngDashboard = () => {
                             <DataGrid
                                 rows={[
                                     { id: 1, orgName: 'ABC Corp', event: 'Product Launch', status: 'completed' },
-                                    { id: 2, orgName: 'XYZ Ltd', event: 'Team Building Retreat', status: 'pending' },
                                     { id: 3, orgName: 'Tech Solutions', event: 'Hackathon', status: 'completed' },
-                                    { id: 4, orgName: 'Global Innovations', event: 'Conference', status: 'pending' },
                                     { id: 5, orgName: 'Future Enterprises', event: 'Workshop', status: 'completed' },
                                 ]}
                                 columns={[
@@ -109,14 +109,14 @@ const EngDashboard = () => {
                                         const { value } = params;
                                         const style = {
                                             fontStyle: 'italic',
-                                            color: value === 'pending' ? 'grey' : 'green',
+                                            color: 'green',
                                         }
                                         return <div style={style}>{value}</div>;
                                     }},
                                     { field: 'action', headerName: 'Action', flex: 0.5, minWidth: 150, sortable: false, renderCell: (params) => {
                                         return (
                                             <div className="d-flex justify-content-center">
-                                                <button className="btn btn-outline-dark mx-2" onClick={(e) => navigate(`eventdash/${params.row.eventID}`)}>View</button>
+                                                <button className="btn btn-outline-dark mx-2" onClick={(e) => navigate(`eventdash/${params.row.id}`)}>View</button>
                                             </div>
                                         )
                                     }},
@@ -135,6 +135,69 @@ const EngDashboard = () => {
                                 pageSizeOptions={[5, 10]}
                                 checkboxSelection
                                 onRowSelectionModelChange={handleSelectedEvents}
+                                sx={{
+                                    '& .MuiDataGrid-toolbarContainer': {
+                                      backgroundColor: '#f0f0f0', // Customize the background color
+                                      // customize font color
+                                        '& .MuiButtonBase-root': {
+                                            color: '#000',
+                                        },
+                                    },
+                                }}
+                            />
+                        </Box>
+                    </div>
+
+                    <h1 className="my-3 fs-4">Pending Events</h1>
+
+                    <div className="col-12 mx-auto my-2 text-center table-responsive">
+                        <Box sx={{ maxHeight: 400, width: '100%' }}>
+                            <DataGrid
+                                rows={[
+                                    { id: 2, orgName: 'XYZ Ltd', event: 'Team Building Retreat', status: 'pending' },
+                                    { id: 4, orgName: 'Global Innovations', event: 'Conference', status: 'pending' },
+                                ]}
+                                columns={[
+                                    { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 70 },
+                                    { field: 'orgName', headerName: 'Organization Name', flex: 1, minWidth: 200 },
+                                    { field: 'event', headerName: 'Event Name', flex: 1, minWidth: 200 },
+                                    { field: 'status', headerName: 'Event Status', flex: 1, minWidth: 200, renderCell: (params) => {
+                                        const { value } = params;
+                                        const style = {
+                                            fontStyle: 'italic',
+                                            color: 'grey',
+                                        }
+                                        return <div style={style}>{value}</div>;
+                                    }},
+                                    { field: 'action', headerName: 'Action', flex: 0.5, minWidth: 150, sortable: false, renderCell: (params) => {
+                                        return (
+                                            <div className="d-flex justify-content-center">
+                                                <button className="btn btn-outline-dark mx-2" onClick={(e) => navigate(`eventdash/${params.row.id}`)}>View</button>
+                                            </div>
+                                        )
+                                    }},
+                                ]}
+                                slots={{ toolbar: GridToolbar }}
+                                slotProps={{
+                                    toolbar: {
+                                        showQuickFilter: true,
+                                    },
+                                }}
+                                initialState={{
+                                    pagination: {
+                                        paginationModel: { page: 0, pageSize: 5 },
+                                    }
+                                }}
+                                pageSizeOptions={[5, 10]}
+                                sx={{
+                                    '& .MuiDataGrid-toolbarContainer': {
+                                      backgroundColor: '#f0f0f0', // Customize the background color
+                                      // customize font color
+                                        '& .MuiButtonBase-root': {
+                                            color: '#000',
+                                        },
+                                    },
+                                }}
                             />
                         </Box>
                     </div>

@@ -397,8 +397,7 @@ const OrgAdminDashboard = () => {
                                                         <button className="btn btn-outline-success mx-2" value={params.row.id} onClick={(e) => {navigate(`issuecert/${e.target.value}`)}}>Issue Certificate</button>
                                                     </>
                                                 );
-                                            }
-                                             },
+                                            }},
                                         ]}
                                         slots={{ toolbar: GridToolbar }}
                                         slotProps={{

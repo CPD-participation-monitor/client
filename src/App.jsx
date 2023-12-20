@@ -1,6 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 import { ToastContainer, Slide } from "react-toastify";
 import { HOME_ROUTE, DASHBOARD_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from './utils/routes';
+import { roles } from './utils/constants';
+import RequireAuth from './features/auth/RequireAuth';
+import Layout from './components/Layout';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -14,10 +17,14 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path={HOME_ROUTE} element={<Home />} />
-          <Route path={DASHBOARD_ROUTE} element={<Dashboard />} />
-          <Route path={LOGIN_ROUTE} element={<Login />} />
-          <Route path={REGISTER_ROUTE} element={<Register />} />
+          <Route path="" element={<Layout />} >
+            <Route path={HOME_ROUTE} element={<Home />} />
+            <Route path={LOGIN_ROUTE} element={<Login />} />
+            <Route path={REGISTER_ROUTE} element={<Register />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[roles.eng]} />}>
+            <Route path={DASHBOARD_ROUTE} element={<Dashboard />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <ToastContainer

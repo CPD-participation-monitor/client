@@ -1,7 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer, Slide } from "react-toastify";
-import { HOME_ROUTE } from './utils/routes';
-import Home from './components/Home';
+import { HOME_ROUTE, DASHBOARD_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from './utils/routes';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
 
@@ -10,6 +13,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={HOME_ROUTE} element={<Home />} />
+          <Route path={DASHBOARD_ROUTE} element={<Dashboard />} />
+          <Route path={LOGIN_ROUTE} element={<Login />} />
+          <Route path={REGISTER_ROUTE} element={<Register />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer

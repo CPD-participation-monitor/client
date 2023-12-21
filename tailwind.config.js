@@ -1,6 +1,7 @@
 /* eslint-env node */
 /** @type {import('tailwindcss').Config} */
-export default {
+const withMT = require("@material-tailwind/react/utils/withMT");
+const config = {
   content: [
     "./src/**/*.{html,js,jsx}",
     "index.html",
@@ -25,4 +26,6 @@ export default {
     themeRoot: ":root", // The element that receives theme color CSS variables
   },
 }
+
+module.exports = withMT(config);
 

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+import { errorToast, successToast } from '../utils/toasts';
 import { register, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
+import { inputPatterns } from '../utils/regex';
 import { LOGIN_ROUTE } from "../utils/routes";
-
 
 const Register = () => {
 
@@ -15,10 +15,10 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    userType: ''
+    role: ''
   });
 
-  const { fullname, nic, email, password, confirmPassword, userType } = formData;
+  const { fullname, nic, email, password, confirmPassword, role } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,11 +27,11 @@ const Register = () => {
 
   useEffect(() => {
     if (isErrored) {
-      toast.error(errorMessage);
+      errorToast(errorMessage);
     }
 
     if (isSuccess || user) {
-      toast.success("Registration successful");
+      successToast("Registration successful");
       navigate(LOGIN_ROUTE);
     }
 
@@ -45,27 +45,37 @@ const Register = () => {
 
   const onSubmit = e => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+    // complete the validation messages
+    if (!inputPatterns.name_regex.test(fullname)) {
+      errorToast("name should contain min 3 and max 23 alphanumeric characters. _ allowed.");
+    } else if (!inputPatterns.nic_regex.test(nic)) {
+      errorToast("Invalid NIC");
+    } else if (!inputPatterns.email_regex.test(email)) {
+      errorToast("Invalid email");
+    } else if (!inputPatterns.password_regex.test(password)) {
+      errorToast("Invalid password");
+    } else if (password !== confirmPassword) {
+      errorToast("Passwords do not match");
     } else {
       const userData = {
-        fullname,
+        name: fullname,
         nic,
         email,
         password,
-        userType
+        role
       }
       dispatch(register(userData));
     }
   }
 
   if (isLoading) {
+    console.log("Loading...");
     return <Spinner />
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-0">
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="container mx-auto">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Register an account
@@ -73,7 +83,7 @@ const Register = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={onSubmit}>
+          <form className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                 Name
@@ -172,7 +182,7 @@ const Register = () => {
                 <div className="flex items-center gap-x-3">
                   <input
                     id="engineer"
-                    name="userType"
+                    name="role"
                     type="radio"
                     value={'eng'}
                     onChange={onChange}
@@ -185,9 +195,9 @@ const Register = () => {
                 <div className="flex items-center gap-x-3 mt-3">
                   <input
                     id="organization"
-                    name="userType"
+                    name="role"
                     type="radio"
-                    value={'org'}
+                    value={'orgAdmin'}
                     onChange={onChange}
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   />
@@ -200,6 +210,7 @@ const Register = () => {
             <div>
               <button
                 type="submit"
+                onClick={onSubmit}
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Register
@@ -209,9 +220,9 @@ const Register = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Already a member?{' '}
-            <a href={LOGIN_ROUTE} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to={LOGIN_ROUTE} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Log in to your account
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -1,3 +1,4 @@
+/* eslint-env node */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -9,6 +10,7 @@ export default {
   },
   plugins: [
     require('tailwindcss'),
+    require('@tailwindcss/forms'),
     require('autoprefixer'),
     require("daisyui"),
   ],

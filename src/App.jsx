@@ -1,14 +1,16 @@
-import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer, Slide } from "react-toastify";
-import { HOME_ROUTE, DASHBOARD_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from './utils/routes';
+import { HOME_ROUTE, ENG_DASHBOARD_ROUTE, ADMIN_DASHBOARD_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from './utils/routes';
 import { roles } from './utils/constants';
 import RequireAuth from './features/auth/RequireAuth';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
+import EngDashboard from './pages/EngDashboard';
+import OrgAdminDashboard from './pages/OrgAdminDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Navbar from './components/Navbar';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
 
@@ -18,12 +20,18 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="" element={<Layout />} >
+            {/* public routes */}
             <Route path={HOME_ROUTE} element={<Home />} />
             <Route path={LOGIN_ROUTE} element={<Login />} />
             <Route path={REGISTER_ROUTE} element={<Register />} />
-          </Route>
-          <Route element={<RequireAuth allowedRoles={[roles.eng]} />}>
-            <Route path={DASHBOARD_ROUTE} element={<Dashboard />} />
+
+            {/* protected routes */}
+            <Route element={<RequireAuth allowedRoles={[roles.eng]} />}>
+              <Route path={ENG_DASHBOARD_ROUTE} element={<EngDashboard />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[roles.orgAdmin, roles.orgSuperAdmin]} />}>
+              <Route path={ADMIN_DASHBOARD_ROUTE} element={<OrgAdminDashboard />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

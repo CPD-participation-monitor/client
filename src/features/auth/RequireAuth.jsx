@@ -1,8 +1,14 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { LOGIN_ROUTE } from "../../utils/routes";
+import PropTypes from 'prop-types';
 
 const RequireAuth = ({ allowedRoles }) => {
+
+    RequireAuth.propTypes = {
+        allowedRoles: PropTypes.array.isRequired
+    };
+
     const { user } = useSelector((state) => state.auth);
     const location = useLocation();
 

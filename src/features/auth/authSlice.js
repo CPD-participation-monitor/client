@@ -13,28 +13,37 @@ const initialState = {
 }
 
 // Register user
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
-    try {
-        return await authService.register(user);
-    } catch (error) {
-        const message = error.response.data.reason || error.message || error.toString();
-        return thunkAPI.rejectWithValue({ errorMessage: message }); 
+export const register = createAsyncThunk(
+    'auth/register', 
+    async (user, thunkAPI) => {
+        try {
+            return await authService.register(user);
+        } catch (error) {
+            const message = error?.response?.data?.reason || error?.message || error.toString() || "Server is disconnected";
+            return thunkAPI.rejectWithValue({ errorMessage: message }); 
+        }
     }
-});
+);
 
 // Login user
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
-    try {
-        return await authService.login(user);
-    } catch (error) {
-        const message = error.response.data.reason || error.message || error.toString();
-        return thunkAPI.rejectWithValue({ errorMessage: message }); 
+export const login = createAsyncThunk(
+    'auth/login', 
+    async (user, thunkAPI) => {
+        try {
+            return await authService.login(user);
+        } catch (error) {
+            const message = error?.response?.data?.reason || error?.message || error.toString() || "Server is disconnected";
+            return thunkAPI.rejectWithValue({ errorMessage: message }); 
+        }
     }
-});
+);
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-   await authService.logout(); 
-});
+export const logout = createAsyncThunk(
+    'auth/logout', 
+    async () => {
+        await authService.logout(); 
+    }
+);
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -60,7 +69,7 @@ export const authSlice = createSlice({
             .addCase(register.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isErrored = true;
-                state.errorMessage = action.payload.errorMessage;
+                state.errorMessage = action?.payload?.errorMessage;
                 state.user = null;
             })
             .addCase(login.pending, (state) => {
@@ -74,7 +83,7 @@ export const authSlice = createSlice({
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isErrored = true;
-                state.errorMessage = action.payload.errorMessage;
+                state.errorMessage = action?.payload?.errorMessage;
                 state.user = null;
             })
             .addCase(logout.fulfilled, (state) => {

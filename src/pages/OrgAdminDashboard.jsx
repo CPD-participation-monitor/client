@@ -1,22 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { errorToast, successToast } from "../utils/toasts";
 import SortableTable from "../components/SortableTable";
 import CreateNewOrgDialog from "../components/CreateNewOrgDialog";
-import { Card, CardHeader, Typography, Button, Chip, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
+import { Card, CardHeader, Typography, Button, Chip } from "@material-tailwind/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import Spinner from "../components/Spinner";
+import { reset } from "../features/organizations/orgSlice";
 
 const OrgAdminDashboard = () => {
 
   const [openNewOrganization, setOpenNewOrganization] = useState(false);
-  const handleOpen = () => {
-    setOpenNewOrganization((cur) => !cur);
-    console.log(openNewOrganization);
-  };
+  const handleOpen = () => { setOpenNewOrganization((cur) => !cur); };
 
+  // should have requests to get these data from the backend===============================================
+  // ======================================================================================================
   const req_tabs = [
-    { label: "All", value: "all", color: "" },
-    { label: "Pending", value: "pending", color: "amber" },
-    { label: "Approved", value: "approved", color: "green" },
-    { label: "Rejected", value: "rejected", color: "red" }
+    { label: "All", value: "all" },
+    { label: "Pending", value: "pending" },
+    { label: "Approved", value: "approved" },
+    { label: "Rejected", value: "rejected" }
   ]
   const tab_colors = {
     'pending': 'amber',
@@ -73,6 +76,8 @@ const OrgAdminDashboard = () => {
     { id: '11', name: 'Frank Rodriguez', email: 'frankrodriguez@email.com', nic: '012345678V', tab: 'approved' },
     { id: '12', name: 'Gina Martinez', email: 'ginamartinez@email.com', nic: '345678901V', tab: 'rejected' },
   ];
+  // ========================================================================================================
+  // ========================================================================================================
 
   return (
     <>

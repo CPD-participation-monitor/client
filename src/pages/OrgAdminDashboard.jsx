@@ -1,5 +1,5 @@
 import SortableTable from "../components/SortableTable"
-import { Card, CardHeader, Typography, Button } from "@material-tailwind/react"
+import { Card, CardHeader, Typography, Button, Chip } from "@material-tailwind/react"
 
 const OrgAdminDashboard = () => {
 
@@ -59,6 +59,7 @@ const OrgAdminDashboard = () => {
                 <Typography color='gray' className='mt-1 font-normal'>
                   user email
                 </Typography>
+                <Chip className="mt-2" variant="gradient" color="amber" value="Administrator" />
               </div>
             </div>
           </CardHeader>

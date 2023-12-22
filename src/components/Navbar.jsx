@@ -4,7 +4,7 @@ import { HOME_ROUTE, LOGIN_ROUTE, ENG_DASHBOARD_ROUTE, ADMIN_DASHBOARD_ROUTE, CP
 import { roles } from "../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
-import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import { PowerIcon } from "@heroicons/react/24/solid";
 import { IconButton } from "@material-tailwind/react";
 
 const Navbar = () => {
@@ -50,12 +50,12 @@ const Navbar = () => {
                 <>
                     <div className="hidden md:flex navbar-end">
                         <button className="btn bg-red-500 text-slate-800" onClick={onLogout}>Logout
-                            <ArrowRightStartOnRectangleIcon className="w-4 h-4" />
+                            <PowerIcon className="w-4 h-4" />
                         </button>
                     </div>
                     <div className="md:hidden navbar-end ">
                         <IconButton variant='gradient' onClick={onLogout} color='red'>
-                            <ArrowRightStartOnRectangleIcon className="w-4 h-4" />
+                            <PowerIcon className="w-4 h-4" />
                         </IconButton>
                     </div>
                 </>

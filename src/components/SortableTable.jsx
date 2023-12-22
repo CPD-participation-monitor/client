@@ -1,15 +1,18 @@
 import { useState, useMemo } from 'react';
 import { MagnifyingGlassIcon, ChevronUpDownIcon, ChevronDownIcon, ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
-import { Input, Typography, Button, Tabs, TabsHeader, Tab, IconButton, Tooltip, Card, CardHeader, CardBody, CardFooter, Menu, MenuHandler, MenuList, MenuItem } from '@material-tailwind/react';
+import { Input, Typography, Button, Tabs, TabsHeader, Tab, IconButton, Tooltip, Card, CardHeader, CardBody, CardFooter, Menu, MenuHandler, MenuList, MenuItem, Chip, tab } from '@material-tailwind/react';
 import PropTypes from 'prop-types';
 
 
-const SortableTable = ({ table_head, table_rows, tabs }) => {
+const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, description }) => {
 
     SortableTable.propTypes = {
         table_head: PropTypes.array.isRequired,
         table_rows: PropTypes.array.isRequired,
-        tabs: PropTypes.array
+        tabs: PropTypes.array,
+        tab_colors: PropTypes.object,
+        title: PropTypes.string,
+        description: PropTypes.string
     };
     
     const [searchTerm, setSearchTerm] = useState('');
@@ -35,6 +38,7 @@ const SortableTable = ({ table_head, table_rows, tabs }) => {
         return sortableItems;
     }, [table_rows, sortField, sortDirection]);
 
+    // tabs part doesn't work yet
     const searchedRows = sortedRows.filter(row => 
         (selectedTab === 'all' || row.tab === selectedTab) &&
         Object.values(row).some(value => 
@@ -69,10 +73,10 @@ const SortableTable = ({ table_head, table_rows, tabs }) => {
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
                         <Typography variant='h5' color='blue-gray'>
-                            Organizations List
+                            {title}
                         </Typography>
                         <Typography color='gray' className='mt-1 font-normal'>
-                            See information about all registered organizations
+                            {description}
                         </Typography>
                     </div>
                 </div>
@@ -118,26 +122,20 @@ const SortableTable = ({ table_head, table_rows, tabs }) => {
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
                             return (
                                 <tr key={row.id}>
-                                    <td className={classes}>
-                                        <Typography variant='paragraph' color='blue-gray' className='font-normal'>
-                                            {row.id}
-                                        </Typography>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography variant='paragraph' color='blue-gray' className='font-normal'>
-                                            {row.organizationName}
-                                        </Typography>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography variant='paragraph' color='blue-gray' className='font-normal'>
-                                            {row.email}
-                                        </Typography>
-                                    </td>
-                                    <td className={classes}>
-                                        <Typography variant='paragraph' color='blue-gray' className='font-normal'>
-                                            {row.members}
-                                        </Typography>
-                                    </td>
+                                    {Object.keys(row).map(key => (
+                                        <td className={classes} key={key}>
+                                            {key !== 'tab' ? <Typography variant='paragraph' color='blue-gray' className='font-normal'>
+                                                {row[key]}
+                                            </Typography> : <div className='w-max'>
+                                                <Chip
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    value={row[key]}
+                                                    color={tab_colors[row[key]]}
+                                                />
+                                            </div>}
+                                        </td>
+                                    ))}
                                     <td className={classes}>
                                         <Tooltip content='view organization'>
                                             <IconButton variant='text'>

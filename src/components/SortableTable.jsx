@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { MagnifyingGlassIcon, ChevronUpDownIcon, ChevronDownIcon, ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
-import { Input, Typography, Button, Tabs, TabsHeader, Tab, IconButton, Tooltip, Card, CardHeader, CardBody, CardFooter, Menu, MenuHandler, MenuList, MenuItem, Chip, tab } from '@material-tailwind/react';
+import { Input, Typography, Button, Tabs, TabsHeader, Tab, IconButton, Tooltip, Card, CardHeader, CardBody, CardFooter, Menu, MenuHandler, MenuList, MenuItem, Chip } from '@material-tailwind/react';
 import PropTypes from 'prop-types';
 
 

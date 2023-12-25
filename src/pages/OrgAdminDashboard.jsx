@@ -22,6 +22,8 @@ const tab_colors = {
   'rejected': 'red'
 }
 
+const org_table_head = [ "ID", "Organization Name", "Email", "# Members", "" ];
+
 const req_table_head = [ "ID", "Administrator Name", "Email", "NIC", "Status", "" ];
 const req_table_rows = [
   { id: '1', name: 'John Doe', email: 'johndoe@email.com', nic: '123456789V', tab: 'pending' },
@@ -43,10 +45,10 @@ const OrgAdminDashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [openNewOrganization, setOpenNewOrganization] = useState(false);
+
 	const { organizations, isLoading, isErrored, isSuccess, errorMessage } = useSelector((state) => state.org);
 
-  
-	// get all organizations
 	useEffect(() => {
 		dispatch(getAllOrganizations());
 	}, [dispatch]);
@@ -57,10 +59,7 @@ const OrgAdminDashboard = () => {
 		dispatch(reset());
 	}, [organizations, isErrored, isSuccess, errorMessage, dispatch]);
 
-  const [openNewOrganization, setOpenNewOrganization] = useState(false);
   const handleOpen = () => { setOpenNewOrganization((cur) => !cur); };
-
-  const org_table_head = [ "ID", "Organization Name", "Email", "# Members", "" ];
 
   const handleViewOrg = (row) => {
     navigate(ORG_DASHBOARD_ROUTE.replace(':orgID', row.orgID));
@@ -81,7 +80,9 @@ const OrgAdminDashboard = () => {
                   <Typography color='gray' className='mt-1 font-normal'>
                     user email
                   </Typography>
-                  <Chip className="mt-2" variant="gradient" color="amber" value="Administrator" />
+                  <div className="w-max">
+                    <Chip className="mt-2" variant="gradient" color="amber" value="Administrator" />
+                  </div>
                 </div>
               </div>
             </CardHeader>
@@ -112,10 +113,13 @@ const OrgAdminDashboard = () => {
                 <Typography color='gray' className='mt-1 font-normal'>
                   user email
                 </Typography>
+                <div className="w-max">
+                  <Chip className="mt-2" variant="gradient" color="amber" value="Administrator" />
+                </div>
                 <Typography variant='paragraph' color='blue-gray'>
                   You can create a new organization and be a super admin, or join an existing organization as an admin.
                 </Typography>
-                <Button className="mt-4" variant="outlined" size="md">New Organization +</Button>
+                <Button className="mt-4" variant="outlined" size="md" onClick={handleOpen}>New Organization <PlusIcon className="w-4 h-4 ml-2" /></Button>
               </div>
             </div>
           </CardHeader>

@@ -122,8 +122,10 @@ const OrgAdminDashboard = () => {
         </Card>
 
         <section className="org-details mt-8">
-          {isLoading ? <Spinner /> : <SortableTable
-            table_head={org_table_head}
+          {isLoading ? <Spinner /> : 
+          <SortableTable
+          table_head={org_table_head}
+            /* eslint-disable-next-line no-unused-vars */
             table_rows={organizations.map(({ description, ...rest }) => rest)}
             title="Organizations List"
             description="See information about all registered organizations"

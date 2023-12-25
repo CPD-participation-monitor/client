@@ -85,7 +85,7 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
                     {tabs ? <Tabs value={selectedTab} className="w-full md:w-max">
                         <TabsHeader>
                             {tabs.map(({ label, value }) => (
-                                <Tab key={value} value={value} onClick={e => setSelectedTab(value)}>
+                                <Tab key={value} value={value} onClick={() => setSelectedTab(value)}>
                                     &nbsp;&nbsp;{label}&nbsp;&nbsp;
                                 </Tab>
                             ))}

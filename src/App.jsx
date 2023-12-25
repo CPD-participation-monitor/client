@@ -12,7 +12,7 @@ import CPDDashboard from './pages/CPDDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Navbar from './components/Navbar';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
       <ToastContainer
         position="top-right"

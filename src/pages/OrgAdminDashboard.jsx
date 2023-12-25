@@ -10,6 +10,34 @@ import Spinner from "../components/Spinner";
 import { reset, getAllOrganizations } from "../features/organizations/orgSlice";
 import { ORG_DASHBOARD_ROUTE } from "../utils/routes";
 
+const req_tabs = [
+  { label: "All", value: "all" },
+  { label: "Pending", value: "pending" },
+  { label: "Approved", value: "approved" },
+  { label: "Rejected", value: "rejected" }
+]
+const tab_colors = {
+  'pending': 'amber',
+  'approved': 'green',
+  'rejected': 'red'
+}
+
+const req_table_head = [ "ID", "Administrator Name", "Email", "NIC", "Status", "" ];
+const req_table_rows = [
+  { id: '1', name: 'John Doe', email: 'johndoe@email.com', nic: '123456789V', tab: 'pending' },
+  { id: '2', name: 'Jane Smith', email: 'janesmith@email.com', nic: '987654321V', tab: 'approved' },
+  { id: '3', name: 'Bob Johnson', email: 'bobjohnson@email.com', nic: '456789012V', tab: 'rejected' },
+  { id: '4', name: 'Alice Williams', email: 'alicewilliams@email.com', nic: '345678901V', tab: 'pending' },
+  { id: '5', name: 'Charlie Brown', email: 'charliebrown@email.com', nic: '567890123V', tab: 'approved' },
+  { id: '6', name: 'Eva Davis', email: 'evadavis@email.com', nic: '789012345V', tab: 'rejected' },
+  { id: '7', name: 'David Lee', email: 'davidlee@email.com', nic: '890123456V', tab: 'pending' },
+  { id: '8', name: 'Grace Miller', email: 'gracemiller@email.com', nic: '234567890V', tab: 'approved' },
+  { id: '9', name: 'Henry Wilson', email: 'henrywilson@email.com', nic: '678901234V', tab: 'rejected' },
+  { id: '10', name: 'Ivy Harris', email: 'ivyharris@email.com', nic: '901234567V', tab: 'pending' },
+  { id: '11', name: 'Frank Rodriguez', email: 'frankrodriguez@email.com', nic: '012345678V', tab: 'approved' },
+  { id: '12', name: 'Gina Martinez', email: 'ginamartinez@email.com', nic: '345678901V', tab: 'rejected' },
+];
+
 const OrgAdminDashboard = () => {
 
   const dispatch = useDispatch();
@@ -37,38 +65,6 @@ const OrgAdminDashboard = () => {
   const handleViewOrg = (row) => {
     navigate(ORG_DASHBOARD_ROUTE.replace(':orgID', row.orgID));
   }
-
-  // should have requests to get these data from the backend===============================================
-  // ======================================================================================================
-  const req_tabs = [
-    { label: "All", value: "all" },
-    { label: "Pending", value: "pending" },
-    { label: "Approved", value: "approved" },
-    { label: "Rejected", value: "rejected" }
-  ]
-  const tab_colors = {
-    'pending': 'amber',
-    'approved': 'green',
-    'rejected': 'red'
-  }
-
-  const req_table_head = [ "ID", "Administrator Name", "Email", "NIC", "Status", "" ];
-  const req_table_rows = [
-    { id: '1', name: 'John Doe', email: 'johndoe@email.com', nic: '123456789V', tab: 'pending' },
-    { id: '2', name: 'Jane Smith', email: 'janesmith@email.com', nic: '987654321V', tab: 'approved' },
-    { id: '3', name: 'Bob Johnson', email: 'bobjohnson@email.com', nic: '456789012V', tab: 'rejected' },
-    { id: '4', name: 'Alice Williams', email: 'alicewilliams@email.com', nic: '345678901V', tab: 'pending' },
-    { id: '5', name: 'Charlie Brown', email: 'charliebrown@email.com', nic: '567890123V', tab: 'approved' },
-    { id: '6', name: 'Eva Davis', email: 'evadavis@email.com', nic: '789012345V', tab: 'rejected' },
-    { id: '7', name: 'David Lee', email: 'davidlee@email.com', nic: '890123456V', tab: 'pending' },
-    { id: '8', name: 'Grace Miller', email: 'gracemiller@email.com', nic: '234567890V', tab: 'approved' },
-    { id: '9', name: 'Henry Wilson', email: 'henrywilson@email.com', nic: '678901234V', tab: 'rejected' },
-    { id: '10', name: 'Ivy Harris', email: 'ivyharris@email.com', nic: '901234567V', tab: 'pending' },
-    { id: '11', name: 'Frank Rodriguez', email: 'frankrodriguez@email.com', nic: '012345678V', tab: 'approved' },
-    { id: '12', name: 'Gina Martinez', email: 'ginamartinez@email.com', nic: '345678901V', tab: 'rejected' },
-  ];
-  // ========================================================================================================
-  // ========================================================================================================
 
   return (
     <>

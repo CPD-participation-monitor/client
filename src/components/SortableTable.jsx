@@ -82,10 +82,10 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    {tabs ? <Tabs value={selectedTab} onChange={e => setSelectedTab(e.target.value)} className="w-full md:w-max">
+                    {tabs ? <Tabs value={selectedTab} className="w-full md:w-max">
                         <TabsHeader>
                             {tabs.map(({ label, value }) => (
-                                <Tab key={value} value={value}>
+                                <Tab key={value} value={value} onClick={e => setSelectedTab(value)}>
                                     &nbsp;&nbsp;{label}&nbsp;&nbsp;
                                 </Tab>
                             ))}

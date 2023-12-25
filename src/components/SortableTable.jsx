@@ -4,7 +4,7 @@ import { Input, Typography, Button, Tabs, TabsHeader, Tab, IconButton, Tooltip, 
 import PropTypes from 'prop-types';
 
 
-const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, description }) => {
+const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, description, actionHandler }) => {
 
     SortableTable.propTypes = {
         table_head: PropTypes.array.isRequired,
@@ -12,7 +12,8 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
         tabs: PropTypes.array,
         tab_colors: PropTypes.object,
         title: PropTypes.string,
-        description: PropTypes.string
+        description: PropTypes.string,
+        actionHandler: PropTypes.func
     };
     
     const [searchTerm, setSearchTerm] = useState('');
@@ -121,7 +122,7 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
                             const isLast = index === currentItems.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
                             return (
-                                <tr key={row.id}>
+                                <tr key={index}>
                                     {Object.keys(row).map(key => (
                                         <td className={classes} key={key}>
                                             {key !== 'tab' ? <Typography variant='paragraph' color='blue-gray' className='font-normal'>
@@ -136,13 +137,13 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
                                             </div>}
                                         </td>
                                     ))}
-                                    <td className={classes}>
+                                    {actionHandler ? <td className={classes}>
                                         <Tooltip content='view organization'>
-                                            <IconButton variant='text'>
+                                            <IconButton variant='text' onClick={() => actionHandler(row)}>
                                                 <ArrowRightEndOnRectangleIcon className="w-4 h-4" />
                                             </IconButton>
                                         </Tooltip>
-                                    </td>
+                                    </td> : null}
                                 </tr>
                             )
                         })}

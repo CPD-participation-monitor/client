@@ -129,7 +129,9 @@ const OrgDashboard = () => {
             return (
               <Card key={index}>
                 <CardBody>
-                  <Chip className="mb-2" variant="gradient" color="amber" value={event.category} />
+                  <div className="w-max">
+                    <Chip className="mb-2" variant="ghost" color="amber" size="sm" value={event.category} />
+                  </div>
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     {event.eventName}
                   </Typography>

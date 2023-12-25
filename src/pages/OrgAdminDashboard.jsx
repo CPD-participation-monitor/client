@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { errorToast, successToast } from "../utils/toasts";
 import SortableTable from "../components/SortableTable";
@@ -6,12 +7,36 @@ import CreateNewOrgDialog from "../components/CreateNewOrgDialog";
 import { Card, CardHeader, Typography, Button, Chip } from "@material-tailwind/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import Spinner from "../components/Spinner";
-import { reset } from "../features/organizations/orgSlice";
+import { reset, getAllOrganizations } from "../features/organizations/orgSlice";
+import { ORG_DASHBOARD_ROUTE } from "../utils/routes";
 
 const OrgAdminDashboard = () => {
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+	const { organizations, isLoading, isErrored, isSuccess, errorMessage } = useSelector((state) => state.org);
+
+  
+	// get all organizations
+	useEffect(() => {
+		dispatch(getAllOrganizations());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (isErrored) errorToast(errorMessage);
+		if (isSuccess) successToast("Organizations fetched successfully");
+		dispatch(reset());
+	}, [organizations, isErrored, isSuccess, errorMessage, dispatch]);
+
   const [openNewOrganization, setOpenNewOrganization] = useState(false);
   const handleOpen = () => { setOpenNewOrganization((cur) => !cur); };
+
+  const org_table_head = [ "ID", "Organization Name", "Email", "# Members", "" ];
+
+  const handleViewOrg = (row) => {
+    navigate(ORG_DASHBOARD_ROUTE.replace(':orgID', row.orgID));
+  }
 
   // should have requests to get these data from the backend===============================================
   // ======================================================================================================
@@ -26,40 +51,6 @@ const OrgAdminDashboard = () => {
     'approved': 'green',
     'rejected': 'red'
   }
-
-  const org_table_head = [ "ID", "Organization Name", "Email", "# Members", "" ];
-  const org_table_rows = [
-    {
-      id: 1,
-      organizationName: 'Professional Learning Institute',
-      email: 'info@pli.org',
-      members: 300,
-    },
-    {
-      id: 2,
-      organizationName: 'Advanced Skills Academy',
-      email: 'contact@asa.edu',
-      members: 500,
-    },
-    {
-      id: 3,
-      organizationName: 'Tech Professionals Hub',
-      email: 'info@tph.org',
-      members: 200,
-    },
-    {
-      id: 4,
-      organizationName: 'Healthcare Training Solutions',
-      email: 'info@hts.org',
-      members: 700,
-    },
-    {
-      id: 5,
-      organizationName: 'Education Professionals Network',
-      email: 'contact@epn.edu',
-      members: 400,
-    },
-  ]
 
   const req_table_head = [ "ID", "Administrator Name", "Email", "NIC", "Status", "" ];
   const req_table_rows = [
@@ -133,14 +124,17 @@ const OrgAdminDashboard = () => {
             </div>
           </CardHeader>
         </Card>
+
         <section className="org-details mt-8">
           <SortableTable
             table_head={org_table_head}
-            table_rows={org_table_rows}
+            table_rows={organizations.map(({ description, ...rest }) => rest)}
             title="Organizations List"
             description="See information about all registered organizations"
+            actionHandler={handleViewOrg}
           />
         </section>
+        
         <section className="join-request-details mt-8">
           <SortableTable
             table_head={req_table_head}

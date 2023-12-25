@@ -17,9 +17,6 @@ const OrgDashboard = () => {
   const dispatch = useDispatch();
   
   const { orgID } = useParams();
-  useEffect(() => {
-    console.log(orgID);
-  }, []);
   
   useEffect(() => {
     dispatch(getOrgEvents(orgID));
@@ -69,15 +66,19 @@ const OrgDashboard = () => {
   ];
   
   const { events } = useSelector((state) => state.event);
+
+  useEffect(() => {
+    console.log(events);
+  }, [events]);
   
   const filteredEvents = events_list.filter((event) => {
     return event?.eventName.toLowerCase().includes(searchTerm.toLowerCase());
   });
   
-  useEffect(() => {
-    console.log(events);
-  }, [events]);
-
+  const handleViewEvent = (eventID) => {  
+    console.log(eventID);
+    // navigate(EVENT_DASHBOARD_ROUTE.replace(":eventID", eventID));
+  }
 
   return (
     <div className="md:container mx-auto md:px-16 py-8">
@@ -144,7 +145,7 @@ const OrgDashboard = () => {
                   </Typography>
                 </CardBody>
                 <CardFooter className="pt-0">
-                  <Button className="flex" value={event.eventID} onClick={e => handleReadMore(e.target.value)}>
+                  <Button className="flex" value={event.eventID} onClick={e => handleViewEvent(e.target.value)}>
                     View Event
                     <ArrowRightIcon className="w-4 h-4 ml-2" />
                   </Button>

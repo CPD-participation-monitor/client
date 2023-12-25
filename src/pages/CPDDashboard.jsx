@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { errorToast, successToast } from "../utils/toasts";
 import { reset, getAllOrganizations } from "../features/organizations/orgSlice";
-import { Card, CardHeader, CardBody, CardFooter, Typography, Button, Tab, TabsHeader, Input } from "@material-tailwind/react";
+import { Card, CardHeader, CardBody, CardFooter, Typography, Button, Input } from "@material-tailwind/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ORG_DASHBOARD_ROUTE } from "../utils/routes";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const CPDDashboard = () => {
 	const dispatch = useDispatch();

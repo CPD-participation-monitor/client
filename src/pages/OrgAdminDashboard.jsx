@@ -126,13 +126,13 @@ const OrgAdminDashboard = () => {
         </Card>
 
         <section className="org-details mt-8">
-          <SortableTable
+          {isLoading ? <Spinner /> : <SortableTable
             table_head={org_table_head}
             table_rows={organizations.map(({ description, ...rest }) => rest)}
             title="Organizations List"
             description="See information about all registered organizations"
             actionHandler={handleViewOrg}
-          />
+          />}
         </section>
         
         <section className="join-request-details mt-8">

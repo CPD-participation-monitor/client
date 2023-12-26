@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { MagnifyingGlassIcon, ChevronUpDownIcon, ChevronDownIcon, ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
-import { Input, Typography, Button, Tabs, TabsHeader, Tab, IconButton, Tooltip, Card, CardHeader, CardBody, CardFooter, Menu, MenuHandler, MenuList, MenuItem, Chip } from '@material-tailwind/react';
+import { Input, Typography, Button, Tabs, TabsHeader, Tab, IconButton, Tooltip, Card, CardHeader, CardBody, CardFooter, Menu, MenuHandler, MenuList, MenuItem, Chip, Checkbox } from '@material-tailwind/react';
 import PropTypes from 'prop-types';
 
 
-const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, description, actionHandler }) => {
+const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, description, actions, selectable, getSelectedRows }) => {
 
     SortableTable.propTypes = {
         table_head: PropTypes.array.isRequired,
@@ -13,7 +13,14 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
         tab_colors: PropTypes.object,
         title: PropTypes.string,
         description: PropTypes.string,
-        actionHandler: PropTypes.func
+        actions: PropTypes.arrayOf(
+            PropTypes.shape({
+                handler: PropTypes.func,
+                tooltip: PropTypes.string,
+            })
+        ),
+        selectable: PropTypes.bool,
+        getSelectedRows: PropTypes.func, // a callback function to get the selected rows (should be required if selectable is true)
     };
     
     const [searchTerm, setSearchTerm] = useState('');
@@ -22,6 +29,13 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [selectedTab, setSelectedTab] = useState('all');
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [selectAll, setSelectAll] = useState(false);
+
+    useEffect(() => {
+        // check if getSelectedRows functions is passed as a prop
+        if (getSelectedRows) getSelectedRows(selectedRows);
+    }, [selectedRows]);
 
     const sortedRows = useMemo(() => {
         let sortableItems = [...table_rows];
@@ -68,6 +82,26 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
         }
     }
 
+    const handleSelectRow = (row) => {
+        setSelectedRows(prevSelectedRows => {
+            if (prevSelectedRows.includes(row)) {
+                return prevSelectedRows.filter(selectedRow => selectedRow !== row);
+            } else {
+                return [...prevSelectedRows, row];
+            }
+        });
+    }
+
+    const handleSelectAll = () => {
+        setSelectAll(prevSelectAll => !prevSelectAll);
+        if (!selectAll){
+            setSelectedRows(currentItems);
+        }
+        else{
+            setSelectedRows([]);
+        }
+    }
+
     return (
         <Card className='h-full w-full'>
             <CardHeader floated={false} shadow={false} className='rounded-none'>
@@ -105,6 +139,14 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
                 <table className="mt-4 w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
+                            {selectable && (
+                                <th className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
+                                    <Checkbox 
+                                        checked={selectedRows.length === currentItems.length}
+                                        onChange={handleSelectAll}
+                                    />
+                                </th>
+                            )}
                             {table_head.map((head, index) => (
                                 <th key={head} className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50" onClick={() => handleSort(head.toLowerCase())}>
                                     <Typography variant='small' color='blue-gray' className='flex items-center justify-between gap-2 font-normal leading-none opacity-70'>
@@ -123,6 +165,14 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
                             return (
                                 <tr key={index}>
+                                    {selectable && (
+                                        <td className={classes} key={index}>
+                                            <Checkbox 
+                                                checked={selectedRows.includes(row)}
+                                                onChange={() => handleSelectRow(row)}
+                                            />
+                                        </td>
+                                    )}
                                     {Object.keys(row).map(key => (
                                         <td className={classes} key={key}>
                                             {key !== 'tab' ? <Typography variant='paragraph' color='blue-gray' className='font-normal'>
@@ -137,13 +187,15 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
                                             </div>}
                                         </td>
                                     ))}
-                                    {actionHandler ? <td className={classes}>
-                                        <Tooltip content='view organization'>
-                                            <IconButton variant='text' onClick={() => actionHandler(row)}>
-                                                <ArrowRightEndOnRectangleIcon className="w-4 h-4" />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </td> : null}
+                                    {actions && actions.map((action, actionIndex) => (
+                                        <td className={classes} key={actionIndex}>
+                                            <Tooltip content={action.tooltip}>
+                                                <IconButton variant='text' onClick={() => action.handler(row)}>
+                                                    <ArrowRightEndOnRectangleIcon className="w-4 h-4" />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </td>
+                                    ))}
                                 </tr>
                             )
                         })}

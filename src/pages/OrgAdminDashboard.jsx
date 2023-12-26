@@ -133,7 +133,7 @@ const OrgAdminDashboard = () => {
             table_rows={organizations.map(({ description, ...rest }) => rest)}
             title="Organizations List"
             description="See information about all registered organizations"
-            actionHandler={handleViewOrg}
+            actions={[{handler: handleViewOrg, tooltip: "View Organization"}]}
           />}
         </section>
         

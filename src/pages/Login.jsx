@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { errorToast, successToast } from '../utils/toasts';
 import { login, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
 import { ENG_DASHBOARD_ROUTE, ADMIN_DASHBOARD_ROUTE, REGISTER_ROUTE, HOME_ROUTE } from "../utils/routes";
 import { roles } from '../utils/constants';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
@@ -23,11 +23,11 @@ const Login = () => {
 
   useEffect(() => {
     if (isErrored) {
-      errorToast(errorMessage);
+      toast.error(errorMessage);
     }
 
     if (isSuccess || user) {
-      successToast("Login successful");
+      toast.success("Login successful");
       let navigateTo = (user?.role === roles.orgAdmin || user?.role === roles.orgSuperAdmin) ? ADMIN_DASHBOARD_ROUTE : user?.role === roles.eng ? ENG_DASHBOARD_ROUTE : HOME_ROUTE;
       navigate(navigateTo, { replace: true });
     }
@@ -44,7 +44,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      errorToast("Please fill all fields");
+      toast.error("Please fill all fields");
     } else {
       const userData = {
         email,

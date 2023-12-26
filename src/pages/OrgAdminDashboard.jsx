@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { errorToast, successToast } from "../utils/toasts";
 import SortableTable from "../components/SortableTable";
 import CreateNewOrgDialog from "../components/CreateNewOrgDialog";
 import { Card, CardHeader, Typography, Button, Chip } from "@material-tailwind/react";
@@ -9,6 +8,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import Spinner from "../components/Spinner";
 import { reset, getAllOrganizations } from "../features/organizations/orgSlice";
 import { ORG_DASHBOARD_ROUTE } from "../utils/routes";
+import { toast } from "react-toastify";
 
 const req_tabs = [
   { label: "All", value: "all" },
@@ -54,8 +54,8 @@ const OrgAdminDashboard = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (isErrored) errorToast(errorMessage);
-		if (isSuccess) successToast("Organizations fetched successfully");
+		if (isErrored) toast.error(errorMessage);
+		if (isSuccess) toast.success("Organizations fetched successfully");
 		dispatch(reset());
 	}, [organizations, isErrored, isSuccess, errorMessage, dispatch]);
 

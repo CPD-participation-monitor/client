@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { errorToast, successToast } from "../utils/toasts";
 import { reset, getAllOrganizations } from "../features/organizations/orgSlice";
 import { Card, CardHeader, CardBody, CardFooter, Typography, Button, Input } from "@material-tailwind/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ORG_DASHBOARD_ROUTE } from "../utils/routes";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import { toast } from "react-toastify";
 
 const CPDDashboard = () => {
 	const dispatch = useDispatch();
@@ -33,8 +33,8 @@ const CPDDashboard = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (isErrored) errorToast(errorMessage);
-		if (isSuccess) successToast("Organizations fetched successfully");
+		if (isErrored) toast.error(errorMessage);
+		if (isSuccess) toast.success("Organizations fetched successfully");
 		dispatch(reset());
 	}, [organizations, isErrored, isSuccess, errorMessage, dispatch]);
 

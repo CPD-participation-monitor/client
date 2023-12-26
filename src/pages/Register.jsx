@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { errorToast, successToast } from '../utils/toasts';
 import { register, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
 import { inputPatterns } from '../utils/regex';
 import { LOGIN_ROUTE } from "../utils/routes";
+import { toast } from 'react-toastify';
 
 const Register = () => {
 
@@ -27,11 +27,11 @@ const Register = () => {
 
   useEffect(() => {
     if (isErrored) {
-      errorToast(errorMessage);
+      toast.error(errorMessage);
     }
 
     if (isSuccess || user) {
-      successToast("Registration successful");
+      toast.success("Registration successful");
       navigate(LOGIN_ROUTE);
     }
 
@@ -47,15 +47,15 @@ const Register = () => {
     e.preventDefault();
     // complete the validation messages
     if (!inputPatterns.name_regex.test(fullname)) {
-      errorToast("name should contain min 3 and max 23 alphanumeric characters. _ allowed.");
+      toast.error("name should contain min 3 and max 23 alphanumeric characters. _ allowed.");
     } else if (!inputPatterns.nic_regex.test(nic)) {
-      errorToast("Invalid NIC");
+      toast.error("Invalid NIC");
     } else if (!inputPatterns.email_regex.test(email)) {
-      errorToast("Invalid email");
+      toast.error("Invalid email");
     } else if (!inputPatterns.password_regex.test(password)) {
-      errorToast("Invalid password");
+      toast.error("Invalid password");
     } else if (password !== confirmPassword) {
-      errorToast("Passwords do not match");
+      toast.error("Passwords do not match");
     } else {
       const userData = {
         name: fullname,

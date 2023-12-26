@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer, Slide } from "react-toastify";
-import { HOME_ROUTE, ENG_DASHBOARD_ROUTE, ADMIN_DASHBOARD_ROUTE, CPD_DASHBOARD_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, ORG_DASHBOARD_ROUTE } from './utils/routes';
+import { HOME_ROUTE, ENG_DASHBOARD_ROUTE, ADMIN_DASHBOARD_ROUTE, CPD_DASHBOARD_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE, ORG_DASHBOARD_ROUTE, EVENT_DASHBOARD_ROUTE } from './utils/routes';
 import { roles } from './utils/constants';
 import RequireAuth from './features/auth/RequireAuth';
 import Layout from './components/Layout';

@@ -26,22 +26,22 @@ const Login = () => {
     if (isErrored) {
       let message;
       switch (errorMessage?.code){
-        case ErrorCodes.InvalidCredentials:
-          message = ErrorMessages.InvalidCredentials;
+        case ErrorCodes.INVALID_CREDENTIALS:
+          message = ErrorMessages.INVALID_CREDENTIALS;
           break;
-        case ErrorCodes.NetworkRequestFailed:
-          message = ErrorMessages.NetworkRequestFailed;
+        case ErrorCodes.NETWORK_REQUEST_FAILED:
+          message = ErrorMessages.NETWORK_REQUEST_FAILED;
           break;
         default:
-          message = ErrorMessages.UnexpectedError;
+          message = ErrorMessages.UNEXPECTED_ERROR;
           break;
       }
       toast.error(message);
     }
 
     if (isSuccess || user) {
-      toast.success(SuccessMessages.SignedInSuccessfully);
-      let navigateTo = (user?.role === roles.orgAdmin || user?.role === roles.orgSuperAdmin) ? ADMIN_DASHBOARD_ROUTE : user?.role === roles.eng ? ENG_DASHBOARD_ROUTE : HOME_ROUTE;
+      toast.success(SuccessMessages.SIGNED_IN_SUCCESSFULLY);
+      let navigateTo = (user?.role === roles.ORG_ADMIN || user?.role === roles.ORG_SUPER_ADMIN) ? ADMIN_DASHBOARD_ROUTE : user?.role === roles.ENG ? ENG_DASHBOARD_ROUTE : HOME_ROUTE;
       navigate(navigateTo, { replace: true });
     }
 
@@ -57,7 +57,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      toast.error(ErrorMessages.AllFieldsRequired);
+      toast.error(ErrorMessages.ALL_FIELDS_REQUIRED);
     } else {
       const userData = {
         email,

@@ -31,10 +31,10 @@ function App() {
             <Route path={ORG_DASHBOARD_ROUTE} element={<OrgDashboard />} />
 
             {/* protected routes */}
-            <Route element={<RequireAuth allowedRoles={[roles.eng]} />}>
+            <Route element={<RequireAuth allowedRoles={[roles.ENG]} />}>
               <Route path={ENG_DASHBOARD_ROUTE} element={<EngDashboard />} />
             </Route>
-            <Route element={<RequireAuth allowedRoles={[roles.orgAdmin, roles.orgSuperAdmin]} />}>
+            <Route element={<RequireAuth allowedRoles={[roles.ORG_ADMIN, roles.ORG_SUPER_ADMIN]} />}>
               <Route path={ADMIN_DASHBOARD_ROUTE} element={<OrgAdminDashboard />} />
             </Route>
           </Route>

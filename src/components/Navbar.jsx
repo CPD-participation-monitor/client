@@ -21,7 +21,7 @@ const Navbar = () => {
     }
 
     useEffect(() => {
-        (!user) ? LOGIN_ROUTE : (user.role === roles.eng) ? setNavLinkDashboard(ENG_DASHBOARD_ROUTE) : (user.role === roles.orgAdmin || user.role === roles.orgSuperAdmin) ? setNavLinkDashboard(ADMIN_DASHBOARD_ROUTE) : setNavLinkDashboard(LOGIN_ROUTE);
+        (!user) ? LOGIN_ROUTE : (user.role === roles.ENG) ? setNavLinkDashboard(ENG_DASHBOARD_ROUTE) : (user.role === roles.ORG_ADMIN || user.role === roles.ORG_SUPER_ADMIN) ? setNavLinkDashboard(ADMIN_DASHBOARD_ROUTE) : setNavLinkDashboard(LOGIN_ROUTE);
     }, [user]);
 
     return (

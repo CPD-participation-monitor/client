@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import { ENG_DASHBOARD_ROUTE, ADMIN_DASHBOARD_ROUTE, REGISTER_ROUTE, HOME_ROUTE } from "../utils/routes";
 import { roles } from '../utils/constants';
 import { toast } from 'react-toastify';
+import { ErrorMessages, SuccessMessages, ErrorCodes } from '../utils/constants';
 
 const Login = () => {
 
@@ -23,11 +24,23 @@ const Login = () => {
 
   useEffect(() => {
     if (isErrored) {
-      toast.error(errorMessage);
+      let message;
+      switch (errorMessage?.code){
+        case ErrorCodes.InvalidCredentials:
+          message = ErrorMessages.InvalidCredentials;
+          break;
+        case ErrorCodes.NetworkRequestFailed:
+          message = ErrorMessages.NetworkRequestFailed;
+          break;
+        default:
+          message = ErrorMessages.UnexpectedError;
+          break;
+      }
+      toast.error(message);
     }
 
     if (isSuccess || user) {
-      toast.success("Login successful");
+      toast.success(SuccessMessages.SignedInSuccessfully);
       let navigateTo = (user?.role === roles.orgAdmin || user?.role === roles.orgSuperAdmin) ? ADMIN_DASHBOARD_ROUTE : user?.role === roles.eng ? ENG_DASHBOARD_ROUTE : HOME_ROUTE;
       navigate(navigateTo, { replace: true });
     }
@@ -44,7 +57,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      toast.error("Please fill all fields");
+      toast.error(ErrorMessages.AllFieldsRequired);
     } else {
       const userData = {
         email,

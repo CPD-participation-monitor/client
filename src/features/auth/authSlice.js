@@ -1,5 +1,6 @@
 import  { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from './authService';
+import { ErrorCodes, ErrorMessages } from '../../utils/constants';
 
 // Get user from local storage
 const user = JSON.parse(localStorage.getItem('user'));
@@ -19,7 +20,27 @@ export const register = createAsyncThunk(
         try {
             return await authService.register(user);
         } catch (error) {
-            const message = error?.response?.data?.reason || error?.message || error.toString() || "Server is disconnected";
+            let message;
+            switch (error?.code) {
+                case ErrorCodes.InvalidEmail:
+                    message = ErrorMessages.InvalidEmail;
+                    break;
+                case ErrorCodes.NetworkRequestFailed:
+                    message = ErrorMessages.NetworkRequestFailed;
+                    break;
+                case ErrorCodes.InvalidCredentials:
+                    message = ErrorMessages.InvalidCredentials;
+                    break;
+                case ErrorCodes.MissingPassword:
+                    message = ErrorMessages.MissingPassword;
+                    break;
+                case ErrorCodes.WeakPassword:
+                    message = ErrorMessages.WeakPassword;
+                    break;
+                default:
+                    message = ErrorMessages.UnexpectedError;
+                    break;
+            }
             return thunkAPI.rejectWithValue({ errorMessage: message }); 
         }
     }
@@ -32,7 +53,18 @@ export const login = createAsyncThunk(
         try {
             return await authService.login(user);
         } catch (error) {
-            const message = error?.response?.data?.reason || error?.message || error.toString() || "Server is disconnected";
+            let message;
+            switch (error?.code) {
+                case ErrorCodes.InvalidCredentials:
+                    message = ErrorMessages.InvalidCredentials;
+                    break;
+                case ErrorCodes.NetworkRequestFailed:
+                    message = ErrorMessages.NetworkRequestFailed;
+                    break;
+                default:
+                    message = ErrorMessages.UnexpectedError;
+                    break;
+            }
             return thunkAPI.rejectWithValue({ errorMessage: message }); 
         }
     }

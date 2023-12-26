@@ -1,37 +1,37 @@
-export const errorMessages = {
-  gettingProfile: "Error getting profile data",
-  changingProfile: "Error changing profile data",
-  noUser: "No user found",
-  noSignedIn: "No user signed in",
-  changingPassword: "Error changing password",
-  changingImage: "Error changing image",
-  addingStudent: "Error adding student",
-  unexpected: "Unexpected error. Please try again later.",
-  signOut: "Error signing out",
-  signIn: "Error signing in",
-  networkRequestFailed: "Network error. Please check your internet connection.",
-  invalidCredential: "Invalid credentials.",
-  weakPassword: "Password is weak. Please try again.",
-  contactNo: "Please enter a valid 9 or 10-digit phone number",
-  requiredAll: "Please fill in all required fields",
-  profileNotFound: "Requested profile not found.",
+export const ErrorMessages = {
+  FailedToRetrieveProfile: "Error occurred while retrieving profile data.",
+  FailedToChangeProfile: "Error occurred while updating profile data.",
+  UserNotFound: "User not found.",
+  NoUserSignedIn: "No user is currently signed in.",
+  FailedToChangePassword: "Error occurred while changing the password.",
+  FailedToChangeImage: "Error occurred while updating the profile image.",
+  FailedToAddStudent: "Error occurred while adding a student.",
+  UnexpectedError: "An unexpected error occurred. Please try again later.",
+  FailedToSignOut: "Error occurred while signing out.",
+  FailedToSignIn: "Error occurred while signing in.",
+  NetworkRequestFailed: "Network error. Please check your internet connection.",
+  InvalidCredentials: "Invalid credentials.",
+  WeakPassword: "Password is weak. Please try again with a stronger password.",
+  InvalidContactNumber: "Please enter a valid 9 or 10-digit phone number.",
+  RequiredFieldsMissing: "Please fill in all required fields.",
+  ProfileNotFound: "Requested profile not found.",
 };
-  
-export const successMessages = {
-  profileChanged: "Profile changed successfully",
-  passwordChanged: "Password changed successfully",
-  imageChanged: "Profile image changed successfully",
-  profileAdded: "Profile added successfully",
-  invalidCredential: "Invalid email address or password.",
-  profileNotFound: "Requested profile not found.",
+
+export const SuccessMessages = {
+  ProfileChangedSuccessfully: "Profile updated successfully.",
+  PasswordChangedSuccessfully: "Password changed successfully.",
+  ImageChangedSuccessfully: "Profile image updated successfully.",
+  ProfileAddedSuccessfully: "Profile added successfully.",
+  InvalidCredentials: "Invalid email address or password.",
+  ProfileNotFound: "Requested profile not found.",
 };
-  
-export const errorCodes = {
-  invalidEmail: "auth/invalid-email",
-  networkRequestFailed: "auth/network-request-failed",
-  invalidCredential: "auth/invalid-credential",
-  missingPassword: "auth/missing-password",
-  weakPassword: "auth/weak-password",
+
+export const ErrorCodes = {
+  InvalidEmail: "auth/invalid-email",
+  NetworkRequestFailed: "auth/network-request-failed",
+  InvalidCredentials: "auth/invalid-credential",
+  MissingPassword: "auth/missing-password",
+  WeakPassword: "auth/weak-password",
 };
 
 export const roles = {

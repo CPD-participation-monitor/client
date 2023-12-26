@@ -22,8 +22,9 @@ export const SuccessMessages = {
   PasswordChangedSuccessfully: "Password changed successfully.",
   ImageChangedSuccessfully: "Profile image updated successfully.",
   ProfileAddedSuccessfully: "Profile added successfully.",
-  InvalidCredentials: "Invalid email address or password.",
-  ProfileNotFound: "Requested profile not found.",
+  SignedOutSuccessfully: "Signed out successfully.",
+  SignedInSuccessfully: "Signed in successfully.",
+  RegisteredSuccessfully: "Registered successfully.",
 };
 
 export const ErrorCodes = {

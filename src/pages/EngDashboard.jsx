@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardHeader, Typography, Button, Chip } from "@material-tailwind/react";
 import SortableTable from "../components/SortableTable";
 import { ORG_DASHBOARD_ROUTE, EVENT_DASHBOARD_ROUTE } from "../utils/routes";

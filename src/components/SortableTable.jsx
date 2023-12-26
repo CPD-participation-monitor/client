@@ -35,7 +35,7 @@ const SortableTable = ({ table_head, table_rows, tabs, tab_colors, title, descri
     useEffect(() => {
         // check if getSelectedRows functions is passed as a prop
         if (getSelectedRows) getSelectedRows(selectedRows);
-    }, [selectedRows]);
+    }, [selectedRows, getSelectedRows]);
 
     const sortedRows = useMemo(() => {
         let sortableItems = [...table_rows];

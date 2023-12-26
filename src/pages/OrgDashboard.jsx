@@ -137,9 +137,9 @@ const OrgDashboard = () => {
                   <Typography variant='paragraph' color='blue-gray'>
                     You can join this organization as an admin.
                   </Typography>
-                  {(user.role === roles.orgAdmin) 
+                  {(user?.role === roles.orgAdmin) 
                     ? <Button className="mt-4" variant="outlined" size="md">Join Organization</Button>
-                    : (user.role === roles.eng)
+                    : (user?.role === roles.eng)
                       ? <Button className="mt-4" variant="outlined" size="md">Register Here</Button>
                       : null
                   }

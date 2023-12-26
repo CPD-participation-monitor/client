@@ -15,6 +15,7 @@ export const ErrorMessages = {
   InvalidContactNumber: "Please enter a valid 9 or 10-digit phone number.",
   RequiredFieldsMissing: "Please fill in all required fields.",
   ProfileNotFound: "Requested profile not found.",
+  AllFieldsRequired: "Please fill in all required fields.",
 };
 
 export const SuccessMessages = {

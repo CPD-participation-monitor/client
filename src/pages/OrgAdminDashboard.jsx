@@ -65,6 +65,10 @@ const OrgAdminDashboard = () => {
     navigate(ORG_DASHBOARD_ROUTE.replace(':orgID', row.orgID));
   }
 
+  const handleProcessRequest = (row) => {
+    console.log(row);
+  }
+
   return (
     <>
       <div className="md:container mx-auto md:px-16 py-8">
@@ -145,6 +149,7 @@ const OrgAdminDashboard = () => {
             tab_colors={tab_colors}
             title="Admin Requests List"
             description="Accept or reject admin requests to join an organization"
+            actions={[{ handler: handleProcessRequest, tooltip: "Process Request" }]}
           />
         </section>
       </div>
